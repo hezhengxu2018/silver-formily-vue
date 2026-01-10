@@ -55,6 +55,10 @@ export default defineConfig<EPThemeConfig>({
           find: '@silver-formily/vue',
           replacement: `${path.resolve(import.meta.dirname, '../../src')}/`,
         },
+        {
+          find: '@formily/vue',
+          replacement: `${path.resolve(import.meta.dirname, '../../src')}/`,
+        },
       ],
     },
     plugins: [groupIconVitePlugin(), VueMacros({
@@ -69,7 +73,7 @@ export default defineConfig<EPThemeConfig>({
       'vitepress-better-demo-plugin',
     ] },
     optimizeDeps: {
-      include: ['@formily/core', '@formily/vue', '@formily/reactive-vue', '@formily/reactive', '@formily/shared', 'lodash-es', '@element-plus/icons-vue', 'vue-draggable-plus', '@formily/grid', 'element-plus', 'dayjs'],
+      include: ['@formily/core', '@formily/reactive', '@formily/shared', '@formily/json-schema', 'element-plus', '@silver-formily/element-plus', '@formily/reactive-vue'],
       exclude: ['vitepress-theme-element-plus'],
     },
   },

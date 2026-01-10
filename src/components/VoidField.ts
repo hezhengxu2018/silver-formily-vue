@@ -3,7 +3,7 @@ import { h } from 'vue'
 import { getVoidFieldProps } from '../utils/getFieldProps'
 
 import { getRawComponent } from '../utils/getRawComponent'
-import ReactiveField from './ReactiveField'
+import ReactiveField from './ReactiveField.vue'
 
 export default {
   name: 'VoidField',
