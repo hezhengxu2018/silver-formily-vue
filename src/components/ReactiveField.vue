@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import type { GeneralField } from '@formily/core'
-import type { Ref } from 'vue'
+import type { PropType, Ref } from 'vue'
 import type { IReactiveFieldProps, VueComponentProps } from '../types'
 import { isVoidField } from '@formily/core'
-import { toJS } from '@formily/reactive'
+import { autorun, toJS } from '@formily/reactive'
+import { useObserver } from '@formily/reactive-vue'
 import { each, FormPath } from '@formily/shared'
 import {
   computed,
+  defineComponent,
   Fragment,
   h,
   inject,
+  onBeforeUnmount,
   provide,
   ref,
   shallowRef,
@@ -27,6 +30,25 @@ defineOptions({
 const props = withDefaults(defineProps<IReactiveFieldProps>(), {
   fieldType: 'Field',
   fieldProps: () => ({} as IReactiveFieldProps['fieldProps']),
+})
+
+useObserver()
+
+const RenderSlot = defineComponent({
+  name: 'RenderSlot',
+  props: {
+    slotFn: {
+      type: Function as PropType<(scope?: any) => any>,
+      required: true,
+    },
+    slotProps: {
+      type: Object as PropType<Record<string, any> | undefined>,
+      default: undefined,
+    },
+  },
+  setup(slotProps) {
+    return () => slotProps.slotFn?.(slotProps.slotProps) ?? []
+  },
 })
 
 function isVueOptions(options: Record<string, unknown>) {
@@ -50,10 +72,10 @@ function resolveComponent(render: () => unknown[], extra?: any) {
   if (extra.length > 1 || extra?.render?.length > 1) {
     return (scopedProps: VueComponentProps<any>) => [
       ...render(),
-      h(extra, { props: scopedProps }, {}),
+      h(extra, { props: scopedProps }),
     ]
   }
-  return () => [...render(), h(extra, {}, {})]
+  return () => [...render(), h(extra)]
 }
 
 function mergeSlots(field: GeneralField, slots: Record<string, any>, content: any): Record<string, (...args: any) => any[]> {
@@ -101,43 +123,14 @@ interface ComponentBindings {
   events: Record<string, any>
 }
 
-const slots = useSlots()
-const formRef = useForm()
-const parentRef = useField()
-const optionsRef = inject(SchemaOptionsSymbol, ref(null))
-
-function createField() {
-  return formRef?.value?.[`create${props.fieldType}`]?.({
-    ...props.fieldProps,
-    basePath: props.fieldProps?.basePath ?? parentRef.value?.address,
-  })
-}
-
-const fieldRef = shallowRef(createField()) as Ref<GeneralField>
-
-watch(
-  () => props.fieldProps,
-  () => (fieldRef.value = createField()),
-)
-
-useAttach(fieldRef)
-provide(FieldSymbol, fieldRef)
-
-const mergedSlots = computed<Record<string, (...args: any) => any[]>>(() => {
-  if (!fieldRef.value) {
-    return {}
-  }
-  return mergeSlots(fieldRef.value, slots, fieldRef.value.content)
-})
-
-const decoratorBindings = computed<ComponentBindings | null>(() => {
-  const field = fieldRef.value
-  if (!field || !field.decoratorType) {
+function resolveDecoratorBindings(field: GeneralField, options: any): ComponentBindings | null {
+  if (!field?.decoratorType) {
     return null
   }
-  const options = optionsRef.value
-  const component = FormPath.getIn(options?.components, field.decoratorType as string)
-    ?? field.decoratorType
+  const component = FormPath.getIn(
+    options?.components,
+    field.decoratorType as string,
+  ) ?? field.decoratorType
   const componentAttrs = { ...(toJS(field.decorator?.[1]) || {}) }
   const events: Record<string, any> = {}
   each(componentAttrs, (value, eventKey) => {
@@ -168,23 +161,22 @@ const decoratorBindings = computed<ComponentBindings | null>(() => {
     class: klass,
     events,
   }
-})
+}
 
-const componentBindings = computed<ComponentBindings | null>(() => {
-  const field = fieldRef.value
-  if (!field || !field.componentType) {
+function resolveComponentBindings(field: GeneralField, options: any): ComponentBindings | null {
+  if (!field?.componentType) {
     return null
   }
-  const options = optionsRef.value
-  const component = FormPath.getIn(options?.components, field.componentType as string)
-    ?? field.componentType
+  const component = FormPath.getIn(
+    options?.components,
+    field.componentType as string,
+  ) ?? field.componentType
   const rawAttrs = { ...(toJS(field.component?.[1]) || {}) }
   const attrs = { ...rawAttrs }
   const events: Record<string, any> = {}
   const originChange = rawAttrs['@change'] || rawAttrs.onChange
   const originFocus = rawAttrs['@focus'] || rawAttrs.onFocus
   const originBlur = rawAttrs['@blur'] || rawAttrs.onBlur
-
   each(rawAttrs, (value, eventKey) => {
     const onEvent = eventKey.startsWith('on')
     const atEvent = eventKey.startsWith('@')
@@ -240,16 +232,71 @@ const componentBindings = computed<ComponentBindings | null>(() => {
     class: klass,
     events,
   }
-})
+}
+
+const slots = useSlots()
+const formRef = useForm()
+const parentRef = useField()
+const optionsRef = inject(SchemaOptionsSymbol, ref(null))
+
+function createField() {
+  return formRef?.value?.[`create${props.fieldType}`]?.({
+    ...props.fieldProps,
+    basePath: props.fieldProps?.basePath ?? parentRef.value?.address,
+  })
+}
+
+const fieldRef = shallowRef(createField()) as Ref<GeneralField>
+
+watch(
+  () => props.fieldProps,
+  () => (fieldRef.value = createField()),
+)
+
+useAttach(fieldRef)
+provide(FieldSymbol, fieldRef)
+
+const mergedSlots = ref<Record<string, (...args: any) => any[]>>({})
+const decoratorBindings = ref<ComponentBindings | null>(null)
+const componentBindings = ref<ComponentBindings | null>(null)
+const isVisible = ref(true)
 
 const defaultOnlySlots = computed(() => ({
   default: mergedSlots.value.default ?? slots.default ?? (() => []),
 }))
 
-const isVisible = computed(() => fieldRef.value?.display === 'visible')
 const hasDecorator = computed(() => Boolean(decoratorBindings.value))
 const hasComponent = computed(() => Boolean(componentBindings.value))
 const field = fieldRef
+
+let stopBindingsReaction: (() => void) | null = null
+
+function setupBindingsReaction() {
+  stopBindingsReaction?.()
+  stopBindingsReaction = autorun(() => {
+    const fieldInstance = fieldRef.value
+    const options = optionsRef.value
+    if (!fieldInstance) {
+      mergedSlots.value = {}
+      decoratorBindings.value = null
+      componentBindings.value = null
+      isVisible.value = true
+      return
+    }
+    mergedSlots.value = mergeSlots(fieldInstance, slots, fieldInstance.content)
+    decoratorBindings.value = resolveDecoratorBindings(fieldInstance, options)
+    componentBindings.value = resolveComponentBindings(fieldInstance, options)
+    isVisible.value = fieldInstance.display === 'visible'
+  })
+}
+
+watch(
+  [fieldRef, optionsRef],
+  () => setupBindingsReaction(),
+  { immediate: true },
+)
+
+onBeforeUnmount(() => stopBindingsReaction?.())
 </script>
 
 <template>
@@ -266,32 +313,72 @@ const field = fieldRef
     <component
       :is="componentBindings?.component"
       v-if="hasComponent"
-      v-slots="mergedSlots"
       v-bind="componentBindings?.attrs"
       :style="componentBindings?.style"
       :class="componentBindings?.class"
       v-on="componentBindings?.events"
-    />
+    >
+      <template
+        v-for="(mergedSlotFn, mergedSlotName) in mergedSlots"
+        :key="mergedSlotName"
+        #[mergedSlotName]="mergedSlotProps"
+      >
+        <RenderSlot
+          :slot-fn="mergedSlotFn"
+          :slot-props="mergedSlotProps"
+        />
+      </template>
+    </component>
     <component
       :is="Fragment"
       v-else
-      v-slots="defaultOnlySlots"
-    />
+    >
+      <template
+        v-for="(defaultSlotFn, defaultSlotName) in defaultOnlySlots"
+        :key="defaultSlotName"
+        #[defaultSlotName]="defaultSlotProps"
+      >
+        <RenderSlot
+          :slot-fn="defaultSlotFn"
+          :slot-props="defaultSlotProps"
+        />
+      </template>
+    </component>
   </component>
   <template v-else>
     <component
       :is="componentBindings?.component"
       v-if="hasComponent"
-      v-slots="mergedSlots"
       v-bind="componentBindings?.attrs"
       :style="componentBindings?.style"
       :class="componentBindings?.class"
       v-on="componentBindings?.events"
-    />
+    >
+      <template
+        v-for="(mergedSlotFnFallback, mergedSlotNameFallback) in mergedSlots"
+        :key="mergedSlotNameFallback"
+        #[mergedSlotNameFallback]="mergedSlotPropsFallback"
+      >
+        <RenderSlot
+          :slot-fn="mergedSlotFnFallback"
+          :slot-props="mergedSlotPropsFallback"
+        />
+      </template>
+    </component>
     <component
       :is="Fragment"
       v-else
-      v-slots="defaultOnlySlots"
-    />
+    >
+      <template
+        v-for="(defaultSlotFnFallback, defaultSlotNameFallback) in defaultOnlySlots"
+        :key="defaultSlotNameFallback"
+        #[defaultSlotNameFallback]="defaultSlotPropsFallback"
+      >
+        <RenderSlot
+          :slot-fn="defaultSlotFnFallback"
+          :slot-props="defaultSlotPropsFallback"
+        />
+      </template>
+    </component>
   </template>
 </template>

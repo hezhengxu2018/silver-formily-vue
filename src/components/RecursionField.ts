@@ -10,7 +10,7 @@ import {
   SchemaSymbol,
 } from '../shared'
 import ArrayField from './ArrayField'
-import Field from './Field'
+import Field from './Field.vue'
 import ObjectField from './ObjectField'
 
 import VoidField from './VoidField'
