@@ -7,7 +7,7 @@ export const FormSymbol: InjectionKey<Ref<Form>> = Symbol('form')
 
 export const FieldSymbol: InjectionKey<Ref<GeneralField>> = Symbol('field')
 
-export const SchemaMarkupSymbol: InjectionKey<Ref<Schema>> = Symbol('schemaMarkup')
+export const SchemaMarkupSymbol: InjectionKey<Ref<InstanceType<typeof Schema>>> = Symbol('schemaMarkup')
 
 export const SchemaSymbol: InjectionKey<Ref<Schema>> = Symbol('schema')
 

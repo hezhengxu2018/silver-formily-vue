@@ -1,5 +1,5 @@
 # Demo
 
 ::: demo
-index
+schema-demo
 :::

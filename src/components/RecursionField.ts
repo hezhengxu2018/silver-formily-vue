@@ -74,6 +74,7 @@ const RecursionField = {
     return () => {
       const basePath = getBasePath()
       const fieldProps = fieldPropsRef.value
+      const normalizedFieldProps = fieldProps as Record<string, any>
 
       const generateSlotsByProperties = (scoped = false) => {
         if (props.onlyRenderSelf)
@@ -110,11 +111,9 @@ const RecursionField = {
               RecursionField,
               {
                 key: `${index}-${name}`,
-                attrs: {
-                  schema,
-                  name,
-                  basePath: field?.address ?? basePath,
-                },
+                schema,
+                name,
+                basePath: field?.address ?? basePath,
                 slot: schema['x-slot'],
               },
               {},
@@ -139,11 +138,9 @@ const RecursionField = {
           return h(
             ObjectField,
             {
-              attrs: {
-                ...fieldProps,
-                name: props.name,
-                basePath,
-              },
+              ...normalizedFieldProps,
+              name: props.name,
+              basePath,
             },
             generateSlotsByProperties(true),
           )
@@ -152,11 +149,9 @@ const RecursionField = {
           return h(
             ArrayField,
             {
-              attrs: {
-                ...fieldProps,
-                name: props.name,
-                basePath,
-              },
+              ...normalizedFieldProps,
+              name: props.name,
+              basePath,
             },
             {},
           )
@@ -168,11 +163,9 @@ const RecursionField = {
           return h(
             VoidField,
             {
-              attrs: {
-                ...fieldProps,
-                name: props.name,
-                basePath,
-              },
+              ...normalizedFieldProps,
+              name: props.name,
+              basePath,
             },
             slots,
           )
@@ -181,11 +174,9 @@ const RecursionField = {
         return h(
           Field,
           {
-            attrs: {
-              ...fieldProps,
-              name: props.name,
-              basePath,
-            },
+            ...normalizedFieldProps,
+            name: props.name,
+            basePath,
           },
           {},
         )
