@@ -73,7 +73,7 @@ export default defineConfig<EPThemeConfig>({
       'vitepress-better-demo-plugin',
     ] },
     optimizeDeps: {
-      include: ['@formily/core', '@formily/reactive', '@formily/shared', '@formily/json-schema', 'element-plus', '@silver-formily/element-plus', '@formily/reactive-vue'],
+      include: ['@formily/core', '@formily/reactive', '@formily/shared', '@formily/json-schema', 'element-plus', '@silver-formily/element-plus', '@formily/reactive-vue', '@silver-formily/element-plus'],
       exclude: ['vitepress-theme-element-plus'],
     },
   },

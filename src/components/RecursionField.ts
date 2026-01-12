@@ -11,9 +11,9 @@ import {
 } from '../shared'
 import ArrayField from './ArrayField'
 import Field from './Field.vue'
-import ObjectField from './ObjectField'
+import ObjectField from './ObjectField.vue'
 
-import VoidField from './VoidField'
+import VoidField from './VoidField.vue'
 
 function resolveEmptySlot(slots: Record<any, (...args: any[]) => any[]>) {
   return Object.keys(slots).length

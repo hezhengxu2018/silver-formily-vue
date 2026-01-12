@@ -1,5 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import vue from '@vitejs/plugin-vue'
 import glob from 'fast-glob'
 import dts from 'unplugin-dts/vite'
 import { defineConfig } from 'vite'
@@ -55,6 +56,10 @@ export default defineConfig({
     sourcemap: true,
   },
   plugins: [
-    dts(),
+    vue(),
+    dts({
+      include: ['src'],
+      vue: true,
+    }),
   ],
 })

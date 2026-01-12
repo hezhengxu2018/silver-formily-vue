@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import type { GeneralField } from '@formily/core'
 import type { PropType, Ref } from 'vue'
-import type { IReactiveFieldProps, VueComponentProps } from '../types'
+import type { IFieldProps, IVoidFieldProps, VueComponentProps } from '../types'
 import { isVoidField } from '@formily/core'
 import { autorun, toJS } from '@formily/reactive'
 import { useObserver } from '@formily/reactive-vue'
 import { each, FormPath } from '@formily/shared'
 import {
   computed,
-  defineComponent,
   Fragment,
   h,
   inject,
@@ -27,29 +26,20 @@ defineOptions({
   name: 'ReactiveField',
 })
 
-const props = withDefaults(defineProps<IReactiveFieldProps>(), {
-  fieldType: 'Field',
-  fieldProps: () => ({} as IReactiveFieldProps['fieldProps']),
+type FieldRendererProps = IFieldProps | IVoidFieldProps
+
+const props = defineProps({
+  fieldType: {
+    type: String as PropType<'Field' | 'ArrayField' | 'ObjectField' | 'VoidField'>,
+    default: 'Field',
+  },
+  fieldProps: {
+    type: Object as PropType<FieldRendererProps>,
+    default: () => ({} as FieldRendererProps),
+  },
 })
 
 useObserver()
-
-const RenderSlot = defineComponent({
-  name: 'RenderSlot',
-  props: {
-    slotFn: {
-      type: Function as PropType<(scope?: any) => any>,
-      required: true,
-    },
-    slotProps: {
-      type: Object as PropType<Record<string, any> | undefined>,
-      default: undefined,
-    },
-  },
-  setup(slotProps) {
-    return () => slotProps.slotFn?.(slotProps.slotProps) ?? []
-  },
-})
 
 function isVueOptions(options: Record<string, unknown>) {
   return (
@@ -323,9 +313,9 @@ onBeforeUnmount(() => stopBindingsReaction?.())
         :key="mergedSlotName"
         #[mergedSlotName]="mergedSlotProps"
       >
-        <RenderSlot
-          :slot-fn="mergedSlotFn"
-          :slot-props="mergedSlotProps"
+        <component
+          :is="mergedSlotFn"
+          v-bind="mergedSlotProps"
         />
       </template>
     </component>
@@ -338,9 +328,9 @@ onBeforeUnmount(() => stopBindingsReaction?.())
         :key="defaultSlotName"
         #[defaultSlotName]="defaultSlotProps"
       >
-        <RenderSlot
-          :slot-fn="defaultSlotFn"
-          :slot-props="defaultSlotProps"
+        <component
+          :is="defaultSlotFn"
+          v-bind="defaultSlotProps"
         />
       </template>
     </component>
@@ -359,9 +349,9 @@ onBeforeUnmount(() => stopBindingsReaction?.())
         :key="mergedSlotNameFallback"
         #[mergedSlotNameFallback]="mergedSlotPropsFallback"
       >
-        <RenderSlot
-          :slot-fn="mergedSlotFnFallback"
-          :slot-props="mergedSlotPropsFallback"
+        <component
+          :is="mergedSlotFnFallback"
+          v-bind="mergedSlotPropsFallback"
         />
       </template>
     </component>
@@ -374,9 +364,9 @@ onBeforeUnmount(() => stopBindingsReaction?.())
         :key="defaultSlotNameFallback"
         #[defaultSlotNameFallback]="defaultSlotPropsFallback"
       >
-        <RenderSlot
-          :slot-fn="defaultSlotFnFallback"
-          :slot-props="defaultSlotPropsFallback"
+        <component
+          :is="defaultSlotFnFallback"
+          v-bind="defaultSlotPropsFallback"
         />
       </template>
     </component>
