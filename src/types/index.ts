@@ -10,36 +10,31 @@ import type {
 } from '@formily/core'
 import type { ISchema, Schema, SchemaKey } from '@formily/json-schema'
 import type { FormPathPattern } from '@formily/shared'
+import type { Validator as FormilyValidator } from '@formily/validator'
 import type { Component } from 'vue'
-import { defineComponent } from 'vue'
-
-class Helper<Props> {
-  Return = defineComponent({} as { props: Record<keyof Props, any> })
-}
-
-export type DefineComponent<Props> = Helper<Props>['Return']
-
-export type VueComponent = Component
 
 export interface VueComponentOptionsWithProps {
-  props: unknown
+  props: Record<string, unknown>
 }
 
-export type VueComponentProps<T extends VueComponent>
-  = T extends VueComponentOptionsWithProps ? T['props'] : T
+type ComponentPropsOrRecord<T extends Component> = T extends VueComponentOptionsWithProps
+  ? T['props']
+  : Record<string, unknown>
+
+export type VueComponentProps<T extends Component> = ComponentPropsOrRecord<T> & Record<string, unknown>
 
 export interface IProviderProps {
   form: Form
 }
 
 export type IFieldProps<
-  D extends VueComponent = VueComponent,
-  C extends VueComponent = VueComponent,
+  D extends Component = Component,
+  C extends Component = Component,
 > = IFieldFactoryProps<D, C>
 
 export type IVoidFieldProps<
-  D extends VueComponent = VueComponent,
-  C extends VueComponent = VueComponent,
+  D extends Component = Component,
+  C extends Component = Component,
 > = IVoidFieldFactoryProps<D, C>
 
 export type IArrayFieldProps = IFieldProps
@@ -50,8 +45,8 @@ export interface IReactiveFieldProps {
   fieldProps: IFieldProps | IVoidFieldProps
 }
 
-export interface IComponentMapper<T extends VueComponent = any> {
-  (target: T): VueComponent
+export interface IComponentMapper<T extends Component = Component> {
+  (target: T): Component
 }
 
 export type IStateMapper<Props>
@@ -60,22 +55,22 @@ export type IStateMapper<Props>
   }
   | ((props: Props, field: GeneralField) => Props)
 
-export type SchemaVueComponents = Record<string, VueComponent>
+export type SchemaVueComponents = Record<string, Component>
+export type SchemaExpressionScope = Record<string, unknown>
 
 export interface ISchemaFieldVueFactoryOptions<
-  Components extends SchemaVueComponents = any,
+  Components extends SchemaVueComponents = SchemaVueComponents,
 > {
   components?: Components
-  scope?: any
+  scope?: SchemaExpressionScope
 }
 
-export interface ISchemaFieldProps
-  extends Omit<IRecursionFieldProps, 'name' | 'schema'> {
+export interface ISchemaFieldProps extends Omit<IRecursionFieldProps, 'name' | 'schema'> {
   schema?: ISchema
   components?: {
-    [key: string]: VueComponent
+    [key: string]: Component
   }
-  scope?: any
+  scope?: SchemaExpressionScope
   name?: SchemaKey
 }
 
@@ -88,7 +83,7 @@ export interface ISchemaFilter {
 }
 
 export interface IRecursionFieldProps {
-  schema: Schema
+  schema: Schema | ISchema
   name?: SchemaKey
   basePath?: FormPathPattern
   onlyRenderProperties?: boolean
@@ -97,14 +92,7 @@ export interface IRecursionFieldProps {
   filterProperties?: ISchemaFilter
 }
 
-export type ObjectKey = string | number | boolean | symbol
-
-export type KeyOfComponents<T> = keyof T
-
-export type ComponentPath<
-  T,
-  Key extends KeyOfComponents<T> = KeyOfComponents<T>,
-> = Key extends string ? Key : never
+export type ComponentPath<T, Key extends keyof T = keyof T> = Key extends string ? Key : never
 
 export type ComponentPropsByPathValue<
   T extends SchemaVueComponents,
@@ -134,5 +122,7 @@ export type ISchemaTypeFieldProps<
 > = Omit<ISchemaMarkupFieldProps<Components, Decorator, Component>, 'type'>
 
 export interface IExpressionScopeProps {
-  value: any
+  value: SchemaExpressionScope
 }
+
+export type { FormilyValidator }

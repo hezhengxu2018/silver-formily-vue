@@ -1,53 +1,136 @@
-import type { SchemaTypes } from '@formily/json-schema'
-import type { DefineComponent, ISchemaFieldProps, ISchemaFieldVueFactoryOptions, ISchemaMarkupFieldProps, ISchemaTypeFieldProps, SchemaVueComponents } from '../types'
-import { defineComponent, h } from 'vue'
-import MarkupFieldComponent from './schema-field/MarkupField.vue'
-import SchemaFieldComponent from './schema-field/SchemaField.vue'
-import { markupProps, schemaFieldProps } from './schema-field/shared'
+import type { ISchema, SchemaTypes } from '@formily/json-schema'
+import type {
+  ISchemaFieldProps,
+  ISchemaFieldVueFactoryOptions,
+  SchemaExpressionScope,
+  SchemaVueComponents,
+  // ISchemaMarkupFieldProps,
+  // ISchemaTypeFieldProps,
+} from '../types'
+import type { MarkupSchemaProps } from '../utils/schemaFieldProps'
+import { Schema } from '@formily/json-schema'
+import { lazyMerge } from '@formily/shared'
+import { computed, defineComponent, Fragment, h, inject, provide, shallowRef, watch } from 'vue'
+import { RecursionField } from '../components'
+import { SchemaExpressionScopeSymbol, SchemaMarkupSymbol, SchemaOptionsSymbol } from '../shared'
+import { resolveSchemaProps } from '../utils/resolveSchemaProps'
+import {
+  markupSchemaProps,
 
-interface SchemaFieldComponents {
-  SchemaField: DefineComponent<ISchemaFieldProps>
-  SchemaMarkupField: DefineComponent<ISchemaMarkupFieldProps>
-  SchemaStringField: DefineComponent<ISchemaTypeFieldProps>
-  SchemaObjectField: DefineComponent<ISchemaTypeFieldProps>
-  SchemaArrayField: DefineComponent<ISchemaTypeFieldProps>
-  SchemaBooleanField: DefineComponent<ISchemaTypeFieldProps>
-  SchemaDateField: DefineComponent<ISchemaTypeFieldProps>
-  SchemaDateTimeField: DefineComponent<ISchemaTypeFieldProps>
-  SchemaVoidField: DefineComponent<ISchemaTypeFieldProps>
-  SchemaNumberField: DefineComponent<ISchemaTypeFieldProps>
+  schemaFieldProps,
+} from '../utils/schemaFieldProps'
+
+const env = {
+  nonameId: 0,
 }
 
-export function createSchemaField<
-  Components extends SchemaVueComponents = SchemaVueComponents,
->(options: ISchemaFieldVueFactoryOptions<Components> = {}): SchemaFieldComponents {
+function getRandomName() {
+  return `NO_NAME_FIELD_$${env.nonameId++}`
+}
+
+export function createSchemaField<Components extends SchemaVueComponents = SchemaVueComponents>(
+  options: ISchemaFieldVueFactoryOptions<Components> = {},
+) {
   const SchemaField = defineComponent({
     name: 'SchemaField',
     inheritAttrs: false,
-    props: {
-      ...schemaFieldProps,
-    },
+    props: schemaFieldProps,
     setup(props: ISchemaFieldProps, { slots }) {
-      return () =>
-        h(
-          SchemaFieldComponent,
-          {
-            ...props,
-            factoryOptions: options,
-          },
-          slots,
-        )
-    },
-  }) as unknown as DefineComponent<ISchemaFieldProps>
+      const schemaRef = computed(() =>
+        Schema.isSchemaInstance(props.schema)
+          ? props.schema
+          : new Schema({
+            type: 'object',
+            ...props.schema,
+          }),
+      )
 
-  const SchemaFieldFactory = (type: SchemaTypes, name: string) =>
-    defineComponent({
+      const scopeRef = computed<SchemaExpressionScope>(() =>
+        lazyMerge({} as SchemaExpressionScope, options.scope ?? {}, props.scope ?? {}),
+      )
+
+      const optionsRef = computed(() => ({
+        ...options,
+        components: {
+          ...options.components,
+          ...props.components,
+        },
+      }))
+
+      provide(SchemaMarkupSymbol, schemaRef)
+      provide(SchemaOptionsSymbol, optionsRef)
+      provide(SchemaExpressionScopeSymbol, scopeRef)
+
+      return () => {
+        env.nonameId = 0
+
+        const slotContent = slots.default?.()
+        const normalizedSlots = Array.isArray(slotContent)
+          ? slotContent
+          : slotContent
+            ? [slotContent]
+            : []
+
+        const recursionNode = h(RecursionField, {
+          ...props,
+          schema: schemaRef.value,
+        })
+
+        return h(Fragment, null, [...normalizedSlots, recursionNode])
+      }
+    },
+  })
+
+  const MarkupField = defineComponent({
+    name: 'MarkupField',
+    props: {
+      type: String,
+      ...markupSchemaProps,
+    },
+    setup(props: MarkupSchemaProps, { slots }) {
+      const parentRef = inject(SchemaMarkupSymbol, null)
+      if (!parentRef || !parentRef.value)
+        return () => null
+
+      const name = props.name || getRandomName()
+      const appendArraySchema = (schema: ISchema) => {
+        if (parentRef.value.items) {
+          return parentRef.value.addProperty(name, schema)
+        }
+        else {
+          return parentRef.value.setItems(resolveSchemaProps(props))
+        }
+      }
+
+      const schemaRef = shallowRef()
+
+      watch(
+        parentRef,
+        () => {
+          if (parentRef.value.type === 'object' || parentRef.value.type === 'void') {
+            schemaRef.value = parentRef.value.addProperty(name, resolveSchemaProps(props))
+          }
+          else if (parentRef.value.type === 'array') {
+            const schema = appendArraySchema(resolveSchemaProps(props))
+            schemaRef.value = Array.isArray(schema) ? schema[0] : schema
+          }
+        },
+        { immediate: true },
+      )
+      provide(SchemaMarkupSymbol, schemaRef)
+
+      return () => h(Fragment, null, slots.default?.())
+    },
+  })
+
+  const SchemaFieldFactory = (type: SchemaTypes, name: string) => {
+    return defineComponent({
       name,
-      props: { ...markupProps },
-      setup(props: ISchemaTypeFieldProps, { slots }) {
+      props: { ...markupSchemaProps },
+      setup(props, { slots }) {
         return () =>
           h(
-            MarkupFieldComponent,
+            MarkupField,
             {
               ...props,
               type,
@@ -55,11 +138,12 @@ export function createSchemaField<
             slots,
           )
       },
-    }) as unknown as DefineComponent<ISchemaTypeFieldProps>
+    })
+  }
 
   return {
     SchemaField,
-    SchemaMarkupField: MarkupFieldComponent as unknown as DefineComponent<ISchemaMarkupFieldProps>,
+    SchemaMarkupField: MarkupField,
     SchemaStringField: SchemaFieldFactory('string', 'SchemaStringField'),
     SchemaObjectField: SchemaFieldFactory('object', 'SchemaObjectField'),
     SchemaArrayField: SchemaFieldFactory('array', 'SchemaArrayField'),

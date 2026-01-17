@@ -1,5 +1,1 @@
 # Demo
-
-::: demo
-schema-demo
-:::

@@ -1,21 +1,18 @@
 import type { GeneralField } from '@formily/core'
-import type {
-  IComponentMapper,
-  IStateMapper,
-  VueComponent,
-  VueComponentProps,
-} from '../types'
+import type { Component } from 'vue'
+import type { IComponentMapper, IStateMapper, VueComponentProps } from '../types'
 import { isVoidField } from '@formily/core'
 import { observer } from '@formily/reactive-vue'
 import { each, FormPath, isFn, isStr, isValid } from '@formily/shared'
-
 import { defineComponent, h, markRaw } from 'vue'
 import { useField } from '../hooks/useField'
 
-export function mapProps<T extends VueComponent = VueComponent>(
-  ...args: IStateMapper<VueComponentProps<T & { value?: any }>>[]
+import { createVNodeProps, extractAttrsAndEvents } from '../utils/reactiveFieldHelpers'
+
+export function mapProps<T extends Component = Component>(
+  ...args: IStateMapper<VueComponentProps<T>>[]
 ) {
-  const transform = (input: VueComponentProps<any>, field: GeneralField) =>
+  const transform = (input: VueComponentProps<T>, field: GeneralField) =>
     args.reduce((props, mapper) => {
       if (isFn(mapper)) {
         props = Object.assign(props, mapper(props, field))
@@ -42,20 +39,13 @@ export function mapProps<T extends VueComponent = VueComponent>(
     return observer(
       defineComponent({
         name: target.name ? `Connected${target.name}` : `ConnectedComponent`,
-        setup(props, { attrs, slots, listeners }: any) {
+        setup(_, { attrs, slots }) {
           const fieldRef = useField()
           return () => {
-            const newAttrs = fieldRef.value
-              ? transform({ ...attrs } as VueComponentProps<T>, fieldRef.value)
-              : { ...attrs }
-            return h(
-              target,
-              {
-                attrs: newAttrs,
-                on: listeners,
-              },
-              slots,
-            )
+            const { attrs: normalizedAttrs, events } = extractAttrsAndEvents(attrs)
+            const baseAttrs = { ...normalizedAttrs } as VueComponentProps<T>
+            const newAttrs = fieldRef.value ? transform(baseAttrs, fieldRef.value) : baseAttrs
+            return h(target, createVNodeProps(newAttrs, events), slots)
           }
         },
       }),
@@ -63,7 +53,7 @@ export function mapProps<T extends VueComponent = VueComponent>(
   }
 }
 
-export function mapReadPretty<T extends VueComponent, C extends VueComponent>(
+export function mapReadPretty<T extends Component, C extends Component>(
   component: C,
   readPrettyProps?: Record<string, any>,
 ) {
@@ -71,21 +61,20 @@ export function mapReadPretty<T extends VueComponent, C extends VueComponent>(
     return observer(
       defineComponent({
         name: target.name ? `Read${target.name}` : `ReadComponent`,
-        setup(props, { attrs, slots, listeners }: Record<string, any>) {
+        setup(_, { attrs, slots }) {
           const fieldRef = useField()
           return () => {
             const field = fieldRef.value
+            const { attrs: normalizedAttrs, events } = extractAttrsAndEvents(attrs)
             return h(
-              field && !isVoidField(field) && field.pattern === 'readPretty'
-                ? component
-                : target,
-              {
-                attrs: {
+              field && !isVoidField(field) && field.pattern === 'readPretty' ? component : target,
+              createVNodeProps(
+                {
                   ...readPrettyProps,
-                  ...attrs,
+                  ...normalizedAttrs,
                 },
-                on: listeners,
-              },
+                events,
+              ),
               slots,
             )
           }
@@ -95,20 +84,20 @@ export function mapReadPretty<T extends VueComponent, C extends VueComponent>(
   }
 }
 
-export function connect<T extends VueComponent>(
-  target: T,
-  ...args: IComponentMapper[]
-): T {
-  const Component = args.reduce((target: VueComponent, mapper) => {
+export function connect<T extends Component>(target: T, ...args: IComponentMapper[]): T {
+  const Component = args.reduce((target: Component, mapper) => {
     return mapper(target)
   }, target)
+
   const functionalComponent = defineComponent({
     name: target.name,
-    setup(props, { attrs, slots }) {
+    setup(_, { attrs, slots }) {
       return () => {
-        return h(Component, { props, attrs }, slots)
+        const { attrs: normalizedAttrs, events } = extractAttrsAndEvents(attrs)
+        return h(Component, createVNodeProps(normalizedAttrs, events), slots)
       }
     },
   })
+
   return markRaw(functionalComponent) as unknown as T
 }

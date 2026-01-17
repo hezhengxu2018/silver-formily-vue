@@ -1,22 +1,22 @@
-import type { IArrayFieldProps } from '../types'
+import type { IFieldProps, IReactiveFieldProps } from '../types'
 import { defineComponent, h } from 'vue'
 import { fieldProps } from '../utils/fieldProps'
 import { getRawComponent } from '../utils/getRawComponent'
 import ReactiveField from './ReactiveField'
 
 export default defineComponent({
-  name: 'ArrayField',
+  name: 'Field',
   props: fieldProps,
-  setup(props: IArrayFieldProps, { slots }) {
+  setup(props: IFieldProps, context) {
     return () => {
-      const componentData = {
-        fieldType: 'ArrayField',
+      const componentData: IReactiveFieldProps = {
+        fieldType: 'Field',
         fieldProps: {
           ...props,
           ...getRawComponent(props),
         },
       }
-      return h(ReactiveField, componentData, slots)
+      return h(ReactiveField, componentData, context.slots)
     }
   },
 })
