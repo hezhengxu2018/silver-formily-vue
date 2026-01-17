@@ -1,4 +1,4 @@
-﻿import { useObserver } from '@formily/reactive-vue'
+import { useObserver } from '@formily/reactive-vue'
 import { defineComponent } from 'vue'
 import { useForm } from '../hooks'
 

@@ -1,4 +1,4 @@
-﻿import type { PropType } from 'vue'
+import type { PropType } from 'vue'
 import type { IProviderProps } from '../types'
 import { defineComponent, provide, toRef } from 'vue'
 import { useAttach } from '../hooks/useAttach'
