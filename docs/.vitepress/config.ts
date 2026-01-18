@@ -55,10 +55,6 @@ export default defineConfig<EPThemeConfig>({
           find: '@silver-formily/vue',
           replacement: `${path.resolve(import.meta.dirname, '../../src')}/`,
         },
-        {
-          find: '@formily/vue',
-          replacement: `${path.resolve(import.meta.dirname, '../../src')}/`,
-        },
       ],
     },
     plugins: [groupIconVitePlugin(), VueMacros({
