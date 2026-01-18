@@ -34,6 +34,74 @@ export default defineConfig<EPThemeConfig>({
       message: 'Released under the MIT License.',
     },
     logo: '/formily-logo.svg',
+    nav: [
+      {
+        text: '指南',
+        link: '/guide/',
+      },
+      {
+        text: 'API',
+        link: '/api/components/field',
+      },
+      {
+        text: 'Q&A',
+        link: '/questions/',
+      },
+    ],
+    sidebar: {
+      '/guide/': [
+        {
+          text: '指南',
+          items: [
+            { text: '介绍', link: '/guide/' },
+            { text: '架构', link: '/guide/architecture' },
+            { text: '核心概念', link: '/guide/concept' },
+          ],
+        },
+      ],
+      '/api/': [
+        {
+          text: 'Components',
+          items: [
+            { text: 'Field', link: '/api/components/field' },
+            { text: 'ArrayField', link: '/api/components/array-field' },
+            { text: 'ObjectField', link: '/api/components/object-field' },
+            { text: 'VoidField', link: '/api/components/void-field' },
+            { text: 'SchemaField (Markup Schema)', link: '/api/components/schema-field' },
+            { text: 'SchemaField (JSON Schema)', link: '/api/components/schema-field-with-schema' },
+            { text: 'RecursionField(简易递归)', link: '/api/components/recursion-field' },
+            { text: 'RecursionField (自增列表递归)', link: '/api/components/recursion-field-with-component' },
+            { text: 'FormProvider', link: '/api/components/form-provider' },
+            { text: 'FormConsumer', link: '/api/components/form-consumer' },
+            { text: 'ExpressionScope', link: '/api/components/expression-scope' },
+          ],
+        },
+        {
+          text: 'Hooks',
+          items: [
+            { text: 'useField', link: '/api/hooks/use-field' },
+            { text: 'useFieldSchema', link: '/api/hooks/use-field-schema' },
+            { text: 'useForm', link: '/api/hooks/use-form' },
+            { text: 'useFormEffects', link: '/api/hooks/use-form-effects' },
+            { text: 'useParentForm', link: '/api/hooks/use-parent-form' },
+          ],
+        },
+        {
+          text: 'Shared',
+          items: [
+            { text: 'connect', link: '/api/shared/connect' },
+            { text: 'injections', link: '/api/shared/injections' },
+            { text: 'mapProps', link: '/api/shared/map-props' },
+            { text: 'mapReadPretty', link: '/api/shared/map-read-pretty' },
+            { text: 'observer', link: '/api/shared/observer' },
+            { text: 'schema', link: '/api/shared/schema' },
+          ],
+        },
+      ],
+    },
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/hezhengxu2018/silver-formily-vue' },
+    ],
   },
   markdown: {
     config(md) {
