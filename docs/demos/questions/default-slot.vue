@@ -1,14 +1,7 @@
-<template>
-  <FormProvider :form="form">
-    <SchemaField :schema="schema" />
-  </FormProvider>
-</template>
-
-<script>
-import { ElButton } from 'element-plus'
+<script setup lang="ts">
 import { createForm } from '@formily/core'
 import { FormProvider, createSchemaField } from '@silver-formily/vue'
-
+import { ElButton } from 'element-plus'
 
 const { SchemaField } = createSchemaField({
   components: {
@@ -27,13 +20,11 @@ const schema = {
   },
 }
 
-export default {
-  components: { FormProvider, SchemaField },
-  data() {
-    return {
-      form: createForm(),
-      schema,
-    }
-  },
-}
+const form = createForm()
 </script>
+
+<template>
+  <FormProvider :form="form">
+    <SchemaField :schema="schema" />
+  </FormProvider>
+</template>

@@ -30,6 +30,7 @@ export default defineConfig<EPThemeConfig>({
     search: {
       provider: 'local',
     },
+    aside: false,
     footer: {
       message: 'Released under the MIT License.',
     },
@@ -38,14 +39,17 @@ export default defineConfig<EPThemeConfig>({
       {
         text: '指南',
         link: '/guide/',
+        activeMatch: '/guide/'
       },
       {
         text: 'API',
         link: '/api/components/field',
+        activeMatch: '/api/'
       },
       {
         text: 'Q&A',
         link: '/questions/',
+        activeMatch: '/questions/'
       },
     ],
     sidebar: {

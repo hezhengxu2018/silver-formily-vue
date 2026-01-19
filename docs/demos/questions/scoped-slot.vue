@@ -1,62 +1,77 @@
-<template>
-  <FormProvider :form="form">
-    <SchemaField :schema="schema" />
-  </FormProvider>
-</template>
-
-<script>
+<script setup lang="tsx">
 import { createForm } from '@formily/core'
-import { FormProvider, createSchemaField } from '@silver-formily/vue'
 import { observer } from '@formily/reactive-vue'
+import { FormProvider, createSchemaField } from '@silver-formily/vue'
+import { cloneVNode, defineComponent, isVNode, type PropType } from 'vue'
 
-// 带有作用域插槽的普通组件
-const TextPreviewer = {
-  functional: true,
-  name: 'TextPreviewer',
-  render(h, context) {
-    return h('div', {}, [
-      context.scopedSlots.default({
-        slotProp: '有 default 作用域插槽组件的插槽属性值',
-        onScopedFunc: ($event) => {
-          alert($event)
-        },
-      }),
-    ])
-  },
+type SlotPayload = {
+  slotProp: string
+  onScopedFunc: (value: string) => void
 }
 
-// 响应式组件
-const ObservedComponent = observer({
-  functional: true,
-  components: {
-    TextPreviewer,
-  },
-  render(h, context) {
-    return h(TextPreviewer, {
-      scopedSlots: {
-        default: (props) => context.scopedSlots.default(props),
-      },
-    })
+const TextPreviewer = defineComponent({
+  name: 'TextPreviewer',
+  setup(_props, { slots }) {
+    const handleScopedFunc = (value: string) => {
+      // eslint-disable-next-line no-alert
+      alert(value)
+    }
+
+    return () => (
+      <div>
+        {slots.default?.({
+          slotProp: '有 default 作用域插槽组件的插槽属性值',
+          onScopedFunc: handleScopedFunc,
+        } as SlotPayload)}
+      </div>
+    )
   },
 })
 
-// 作用域插槽组件
-const ScopedSlotComponent = {
-  functional: true,
-  render(h, { props }) {
-    return h(
-      'div',
-      {
-        on: {
-          click: () => {
-            props.onScopedFunc('作用域插槽传递事件函数，事件发生后进行值的回传')
-          },
-        },
-      },
-      [props.slotProp]
+const ObservedComponent = observer(
+  defineComponent({
+    name: 'ObservedComponent',
+    setup(_props, { slots }) {
+      return () => (
+        <TextPreviewer
+          v-slots={{
+            default: (payload: SlotPayload) => {
+              const children = slots.default?.() ?? []
+              return children.map((child) =>
+                isVNode(child) ? cloneVNode(child, payload) : child,
+              )
+            },
+          }}
+        />
+      )
+    },
+  }),
+)
+
+const ScopedSlotComponent = defineComponent({
+  name: 'ScopedSlotComponent',
+  props: {
+    slotProp: {
+      type: String,
+      required: true,
+    },
+    onScopedFunc: {
+      type: Function as PropType<(value: string) => void>,
+      required: true,
+    },
+  },
+  setup(props) {
+    const handleClick = () => {
+      props.onScopedFunc('作用域插槽传递事件函数，事件发生后进行值的回传')
+    }
+
+    return () => (
+      <div onClick={handleClick}>
+        {props.slotProp}
+      </div>
     )
   },
-}
+})
 
 const { SchemaField } = createSchemaField({
   components: {
@@ -76,13 +91,12 @@ const schema = {
     },
   },
 }
-export default {
-  components: { FormProvider, SchemaField },
-  data() {
-    return {
-      form: createForm(),
-      schema,
-    }
-  },
-}
+
+const form = createForm()
 </script>
+
+<template>
+  <FormProvider :form="form">
+    <SchemaField :schema="schema" />
+  </FormProvider>
+</template>

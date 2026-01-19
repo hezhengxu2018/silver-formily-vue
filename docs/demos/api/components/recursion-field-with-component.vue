@@ -1,5 +1,5 @@
-<script>
-import { createForm } from '@formily/core'
+<script setup lang="tsx">
+import { createForm, isArrayField } from '@formily/core'
 import { observer } from '@formily/reactive-vue'
 import {
   createSchemaField,
@@ -9,36 +9,44 @@ import {
   useFieldSchema,
 } from '@silver-formily/vue'
 import { ElButton, ElInput, ElSpace } from 'element-plus'
-import { defineComponent, h } from 'vue'
+import { defineComponent } from 'vue'
 
 const ArrayItems = observer(
   defineComponent({
+    name: 'ArrayItems',
     setup() {
       const fieldRef = useField()
       const schemaRef = useFieldSchema()
 
+      function handleAdd() {
+
+        if (isArrayField(fieldRef.value)) {
+          fieldRef.value.value?.push({ id: Date.now() })
+        }
+      }
+
       return () => {
         const field = fieldRef.value
         const schema = schemaRef.value
-        const items = field.value?.map((item, index) => {
-          return h('div', { key: item.id, style: { marginBottom: '10px' } }, [
-            h(ElSpace, [
-              // params of render function is different in vue3
-              h(RecursionField, {
-                props: { schema: schema.items, name: index },
-              }),
-              h(ElButton, { on: { click: () => field.remove(index) } }, [
-                'Remove',
-              ]),
-            ]),
-          ])
-        })
-        const button = h(
-          ElButton,
-          { on: { click: () => field.push({ id: Date.now() }) } },
-          ['Add'],
+        const items = isArrayField(field) && Array.isArray(field.value)
+          ? field.value.map((item, index) => (
+              <div key={item.id ?? index} style={{ marginBottom: '10px' }}>
+                <ElSpace>
+                  <RecursionField schema={schema?.items} name={index} />
+                  <ElButton onClick={() => field?.remove(index)}>
+                    Remove
+                  </ElButton>
+                </ElSpace>
+              </div>
+            ))
+          : null
+
+        return (
+          <div>
+            {items}
+            <ElButton onClick={handleAdd}>Add</ElButton>
+          </div>
         )
-        return h('div', [items, Elbutton])
       }
     },
   }),
@@ -52,20 +60,7 @@ const { SchemaField, SchemaStringField, SchemaArrayField, SchemaObjectField }
     },
   })
 
-export default {
-  components: {
-    FormProvider,
-    SchemaField,
-    SchemaStringField,
-    SchemaArrayField,
-    SchemaObjectField,
-  },
-  data() {
-    return {
-      form: createForm(),
-    }
-  },
-}
+const form = createForm()
 </script>
 
 <template>

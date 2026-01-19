@@ -1,19 +1,24 @@
-<script>
+<script setup>
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider, RecursionField } from '@silver-formily/vue'
 import { ElInput } from 'element-plus'
+import { defineComponent, h } from 'vue'
 
-const Custom = {
-  render(h, { props }) {
-    return h(RecursionField, {
-      props: {
+const Custom = defineComponent({
+  name: 'Custom',
+  props: {
+    name: String,
+    schema: Object,
+  },
+  setup(props) {
+    return () =>
+      h(RecursionField, {
         name: props.name,
         schema: props.schema,
         onlyRenderProperties: true,
-      },
-    })
+      })
   },
-}
+})
 
 const { SchemaField, SchemaObjectField } = createSchemaField({
   components: {
@@ -22,14 +27,7 @@ const { SchemaField, SchemaObjectField } = createSchemaField({
   },
 })
 
-export default {
-  components: { FormProvider, SchemaField, SchemaObjectField },
-  data() {
-    return {
-      form: createForm(),
-    }
-  },
-}
+const form = createForm()
 </script>
 
 <template>

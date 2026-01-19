@@ -1,17 +1,9 @@
-<script>
+<script setup>
 import { createForm } from '@formily/core'
 import { Field, FormConsumer, FormProvider } from '@silver-formily/vue'
 import { ElInput } from 'element-plus'
 
-export default {
-  components: { FormProvider, Field, FormConsumer },
-  data() {
-    return {
-      ElInput,
-      form: createForm(),
-    }
-  },
-}
+const form = createForm()
 </script>
 
 <template>

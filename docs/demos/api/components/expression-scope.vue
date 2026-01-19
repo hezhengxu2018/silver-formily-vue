@@ -1,44 +1,33 @@
-<script>
+<script setup>
 import { createForm } from '@formily/core'
-import {
-  createSchemaField,
-  ExpressionScope,
-  FormProvider,
-  h,
-} from '@silver-formily/vue'
-import { defineComponent } from 'vue'
+import { createSchemaField, ExpressionScope, FormProvider } from '@silver-formily/vue'
+import { defineComponent, h } from 'vue'
 
 const Container = defineComponent({
   setup(_props, { slots }) {
     return () =>
       h(
         ExpressionScope,
-        {
-          props: { value: { $innerScope: 'inner scope value' } },
-        },
+        { value: { $innerScope: 'inner scope value' } },
         slots,
       )
   },
 })
+
 const Text = defineComponent({
-  props: ['text'],
+  props: {
+    text: String,
+  },
   setup(props) {
-    return () => h('div', {}, { default: () => props.text })
+    return () => h('div', props.text)
   },
 })
-const SchemaField = createSchemaField({
+
+const { SchemaField, SchemaVoidField } = createSchemaField({
   components: { Container, Text },
 })
 
-export default {
-  components: { FormProvider, ...SchemaField },
-  data() {
-    return {
-      Text,
-      form: createForm(),
-    }
-  },
-}
+const form = createForm()
 </script>
 
 <template>

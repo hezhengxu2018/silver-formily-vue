@@ -28,7 +28,7 @@ questions/default-slot
 
 `x-content` 中以键名来表示插槽名。
 
-::: danger
+::: warning
 注意键名不可包含 `template`、`render`、`setup` 三个关键字，否则整个 `x-content` 会被当做 vue 组件进行渲染。
 :::
 
@@ -40,6 +40,14 @@ questions/named-slot
 
 `x-content` 使用函数式组件时, 渲染函数增加第二个参数，通过其 `props` 成员访问作用域插槽传入属性，支持 observer() 和 connect() 接入组件。
 
+::: warning
+在 Vue 3 中 `x-content` 里声明的插槽节点会提前生成 VNode，后续需要通过 `cloneVNode(child, payload)` 注入作用域属性（如 `slotProp`、`onScopedFunc`），否则子组件拿不到这些必填 prop 并且控制台会提示缺少属性。示例见下方 demo。
+:::
+
 ::: demo
 questions/scoped-slot
+:::
+
+::: demo
+questions/functional-scoped-slot
 :::

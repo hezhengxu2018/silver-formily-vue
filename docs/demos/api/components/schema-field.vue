@@ -1,4 +1,4 @@
-<script>
+<script setup>
 import { createForm } from '@formily/core'
 import { createSchemaField, FormProvider } from '@silver-formily/vue'
 import { ElInput } from 'element-plus'
@@ -9,14 +9,7 @@ const { SchemaField, SchemaStringField } = createSchemaField({
   },
 })
 
-export default {
-  components: { FormProvider, SchemaField, SchemaStringField },
-  data() {
-    return {
-      form: createForm(),
-    }
-  },
-}
+const form = createForm()
 </script>
 
 <template>

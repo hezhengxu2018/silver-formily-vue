@@ -3,30 +3,25 @@ import { createForm, setValidateLanguage } from '@formily/core'
 import { observer } from '@formily/reactive-vue'
 import { Field, FormConsumer, FormProvider, useField } from '@silver-formily/vue'
 import { ElButton, ElFormItem, ElInput } from 'element-plus'
-import { defineComponent, h } from 'vue'
+import { defineComponent } from 'vue'
 
 setValidateLanguage('en')
 
 const FormItem = observer(
   defineComponent({
-    setup(props, { slots }) {
+    setup(_props, { slots }) {
       const fieldRef = useField()
-      return () => {
-        const field = fieldRef.value
-        return h(
-          ElFormItem,
-          {
-            props: {
-              label: field.title,
-              required: field.required,
-              help: field.selfErrors?.length ? field.selfErrors : undefined,
-              extra: field.description,
-              validateStatus: field.validateStatus,
-            },
-          },
-          slots?.default(),
-        )
-      }
+      return () => (
+        <ElFormItem
+          label={fieldRef.value?.title}
+          required={fieldRef.value?.required}
+          help={fieldRef.value?.selfErrors?.length ? fieldRef.value?.selfErrors : undefined}
+          extra={fieldRef.value?.description}
+          validateStatus={fieldRef.value?.validateStatus}
+        >
+          {slots?.default?.()}
+        </ElFormItem>
+      )
     },
   }),
 )

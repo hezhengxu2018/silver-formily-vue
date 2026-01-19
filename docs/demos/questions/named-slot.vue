@@ -1,14 +1,9 @@
-<template>
-  <FormProvider :form="form">
-    <SchemaField :schema="schema" />
-  </FormProvider>
-</template>
-
-<script>
-import { ElInput, Icon } from 'element-plus'
+<script setup lang="tsx">
 import { createForm } from '@formily/core'
 import { FormProvider, createSchemaField } from '@silver-formily/vue'
-
+import { ElInput, ElIcon } from 'element-plus'
+import { defineComponent, h } from 'vue'
+import { User } from "@element-plus/icons-vue";
 
 const { SchemaField } = createSchemaField({
   components: {
@@ -16,12 +11,12 @@ const { SchemaField } = createSchemaField({
   },
 })
 
-const PrefixIcon = {
-  functional: true,
-  render(h) {
-    return h(Icon, { props: { type: 'user' } })
+const PrefixIcon = defineComponent({
+  name: 'PrefixIcon',
+  setup() {
+    return () => <ElIcon>< User/></ElIcon>
   },
-}
+})
 
 const schema = {
   type: 'object',
@@ -36,13 +31,11 @@ const schema = {
   },
 }
 
-export default {
-  components: { FormProvider, SchemaField },
-  data() {
-    return {
-      form: createForm(),
-      schema,
-    }
-  },
-}
+const form = createForm()
 </script>
+
+<template>
+  <FormProvider :form="form">
+    <SchemaField :schema="schema" />
+  </FormProvider>
+</template>
