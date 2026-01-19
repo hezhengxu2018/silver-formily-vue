@@ -8,8 +8,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
-      "@silver-formily/vue": ["../src"],
-      "@formily/vue": ["../src"]
+      "@silver-formily/vue": ["../src"]
     },
     "resolveJsonModule": true,
     "allowJs": false,

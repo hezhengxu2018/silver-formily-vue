@@ -58,8 +58,6 @@ export default defineConfig<EPThemeConfig>({
           text: '指南',
           items: [
             { text: '介绍', link: '/guide/' },
-            { text: '架构', link: '/guide/architecture' },
-            { text: '核心概念', link: '/guide/concept' },
           ],
         },
       ],

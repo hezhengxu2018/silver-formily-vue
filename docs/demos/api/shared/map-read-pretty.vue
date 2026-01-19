@@ -32,7 +32,7 @@ const FormItem = connect(
 const ReadPrettyInput = defineComponent({
   name: 'ReadPrettyInput',
   setup(_props, { attrs }) {
-    return () => h('div', {}, [attrs.value as any])
+    return () => h('div', {}, [attrs.modelValue as any])
   },
 })
 
