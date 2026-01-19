@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: alt
       text: 指南
-      link: ./guide/introduction
+      link: ./guide/
     - theme: brand
       text: 快速开始
-      link: ./component/quick-start
+      link: ./component/
 
 features:
   - title: 💡 使用Vue3 重构的 Formily 封装

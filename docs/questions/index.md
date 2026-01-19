@@ -1,5 +1,6 @@
 ---
-sidebar: auto
+aside: true
+outline: 2
 ---
 
 # 常见问题
