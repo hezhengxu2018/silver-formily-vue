@@ -46,44 +46,44 @@ formily 的协议驱动主要是基于标准 JSON Schema 来进行驱动渲染�
 
 何为递归渲染？递归渲染就是组件 A 在某些条件下会继续用组件 A 来渲染内容，看看以下伪代码：
 
-```json
-{ <---- RecursionField(条件：object；渲染权：RecursionField)
-  "type":"object",
-  "properties":{
-    "username":{ <---- RecursionField(条件：string；渲染权：RecursionField)
-      "type":"string",
-      "x-component":"Input"
+```json5
+{ // RecursionField(条件：object；渲染权：RecursionField)
+  "type": "object",
+  "properties": {
+    "username": { // RecursionField(条件：string；渲染权：RecursionField)
+      "type": "string",
+      "x-component": "Input"
     },
-    "phone":{ <---- RecursionField(条件：string；渲染权：RecursionField)
-      "type":"string",
-      "x-component":"Input",
-      "x-validator":"phone"
+    "phone": { // RecursionField(条件：string；渲染权：RecursionField)
+      "type": "string",
+      "x-component": "Input",
+      "x-validator": "phone"
     },
-    "email":{ <---- RecursionField(条件：string；渲染权：RecursionField)
-      "type":"string",
-      "x-component":"Input",
-      "x-validator":"email"
+    "email": { // RecursionField(条件：string；渲染权：RecursionField)
+      "type": "string",
+      "x-component": "Input",
+      "x-validator": "email"
     },
-    "contacts":{ <---- RecursionField(条件：array；渲染权：RecursionField)
-      "type":"array",
-      "x-component":"ArrayTable",
-      "items":{ <---- RecursionField(条件：object；渲染权：ArrayTable组件)
-        "type":"object",
-        "properties":{
-          "username":{ <---- RecursionField(条件：string；渲染权：RecursionField)
-            "type":"string",
-            "x-component":"Input"
+    "contacts": { // RecursionField(条件：array；渲染权：RecursionField)
+      "type": "array",
+      "x-component": "ArrayTable",
+      "items": { // RecursionField(条件：object；渲染权：ArrayTable组件)
+        "type": "object",
+        "properties": {
+          "username": { // RecursionField(条件：string；渲染权：RecursionField)
+            "type": "string",
+            "x-component": "Input"
           },
-          "phone":{ <---- RecursionField(条件：string；渲染权：RecursionField)
-            "type":"string",
-            "x-component":"Input",
-            "x-validator":"phone"
+          "phone": { // RecursionField(条件：string；渲染权：RecursionField)
+            "type": "string",
+            "x-component": "Input",
+            "x-validator": "phone"
           },
-          "email":{ <---- RecursionField(条件：string；渲染权：RecursionField)
-            "type":"string",
-            "x-component":"Input",
-            "x-validator":"email"
-          },
+          "email": { // RecursionField(条件：string；渲染权：RecursionField)
+            "type": "string",
+            "x-component": "Input",
+            "x-validator": "email"
+          }
         }
       }
     }

@@ -18,6 +18,43 @@ type Attrs = Record<string, unknown>
 
 const EMPTY_SLOT: Slot = () => []
 
+type ComponentWithProps = Component & { props?: unknown }
+
+function normalizePropKeys(propsDef: unknown): string[] | null {
+  if (!propsDef)
+    return null
+  if (Array.isArray(propsDef))
+    return propsDef.map(key => String(key))
+  if (typeof propsDef === 'object')
+    return Object.keys(propsDef as Record<string, unknown>)
+  return null
+}
+
+function extractComponentPropKeys(component: SlotContent): string[] | null {
+  if (!component || typeof component === 'string')
+    return null
+  const target = component as ComponentWithProps
+  return normalizePropKeys(target.props)
+}
+
+function pickScopedProps(
+  scopedProps: Record<string, unknown> | undefined,
+  propKeys: string[] | null | undefined,
+) {
+  if (!scopedProps)
+    return undefined
+  if (!propKeys || !propKeys.length)
+    return scopedProps
+  const picked: Record<string, unknown> = {}
+  propKeys.forEach((key) => {
+    if (key in scopedProps)
+      picked[key] = scopedProps[key]
+  })
+  if (!Object.keys(picked).length)
+    return undefined
+  return picked
+}
+
 function isVueOptions(options: unknown): options is VueLikeOptions {
   if (typeof options !== 'object' || options === null) {
     return false
@@ -62,16 +99,18 @@ function resolveComponent(render: Slot, extra?: SlotContent): Slot {
   }
 
   const component = extra
+  const propKeys = extractComponentPropKeys(component)
   const needsScopedProps
     = (typeof component === 'function' && component.length > 1)
       || (isVueOptions(component)
         && typeof component.render === 'function'
         && component.render.length > 1)
+      || !!(propKeys && propKeys.length)
 
   if (needsScopedProps) {
     return (scopedProps?: Record<string, unknown>) => [
       ...render(),
-      h(component, scopedProps ?? {}),
+      h(component, pickScopedProps(scopedProps, propKeys) ?? {}),
     ]
   }
 

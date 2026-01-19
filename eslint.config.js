@@ -6,6 +6,9 @@ export default antfu({
     indent: 2,
     quotes: 'single',
   },
+  rules: {
+    'vue/one-component-per-file': 'off',
+  },
   formatters: {
     css: true,
     html: true,

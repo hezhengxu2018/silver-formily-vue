@@ -1,26 +1,20 @@
 <script setup lang="tsx">
-import type { PropType } from 'vue'
 import { createForm } from '@formily/core'
 import { observer } from '@formily/reactive-vue'
 import { createSchemaField, FormProvider } from '@silver-formily/vue'
-import { cloneVNode, defineComponent, h, isVNode } from 'vue'
+import { defineComponent } from 'vue'
 
 const ObservedComponent = observer(
   defineComponent({
     name: 'ObservedComponent',
     setup(_props, { slots }) {
       const SELF_STRING = 'ObservedComponent组件中定义的字符串'
-      return () => {
-        const children = slots.default?.() ?? []
-        return (
-          <span>
-            ObservedComponent组件的插槽内容：
-            {children.map(child =>
-              isVNode(child) ? cloneVNode(child, { string: SELF_STRING }) : child,
-            )}
-          </span>
-        )
-      }
+      return () => (
+        <span>
+          ObservedComponent组件的插槽内容：
+          {slots.default?.({ string: SELF_STRING })}
+        </span>
+      )
     },
   }),
 )
@@ -30,7 +24,12 @@ function ScopedSlotComponent(props) {
     // eslint-disable-next-line no-alert
     alert('函数式组件内部定义的方法')
   }
-  return h('div', { onClick: handleClick }, props.string)
+  return (
+    <div onClick={handleClick}>
+      ScopedSlotComponent中接收到的变量值：
+      {props.string}
+    </div>
+  )
 }
 ScopedSlotComponent.props = ['string']
 
@@ -47,7 +46,7 @@ const schema = {
       'type': 'string',
       'x-component': 'ObservedComponent',
       'x-content': {
-        default: slotProps => h(ScopedSlotComponent, slotProps),
+        default: ScopedSlotComponent,
       },
     },
   },

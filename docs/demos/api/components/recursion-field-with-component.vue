@@ -19,7 +19,6 @@ const ArrayItems = observer(
       const schemaRef = useFieldSchema()
 
       function handleAdd() {
-
         if (isArrayField(fieldRef.value)) {
           fieldRef.value.value?.push({ id: Date.now() })
         }

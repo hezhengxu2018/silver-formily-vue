@@ -48,6 +48,10 @@ questions/named-slot
 questions/scoped-slot
 :::
 
+你可能会觉得奇怪为什么`ScopedSlotComponent`这个组件定义了两个props来接收作用域插槽中应该获取的作用域。事实上应该使用下面这种更规范的写法，他是Vue3中的函数式组件，因为插槽只接收VNode，除了VNode之外只能使用函数式组件。
+
 ::: demo
 questions/functional-scoped-slot
 :::
+
+更多信息请参考Vue3官方文档中的函数式组件。

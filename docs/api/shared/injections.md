@@ -77,6 +77,6 @@ Schema 全局参数上下文，主要用于获取从 createSchemaField 传入的
 #### 签名
 
 ```ts
-const SchemaOptionsContext =
-  inject<ISchemaFieldFactoryOptions>(SchemaOptionsSymbol)
+const SchemaOptionsContext
+  = inject<ISchemaFieldFactoryOptions>(SchemaOptionsSymbol)
 ```

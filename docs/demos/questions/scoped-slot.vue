@@ -1,10 +1,11 @@
 <script setup lang="tsx">
+import type { PropType } from 'vue'
 import { createForm } from '@formily/core'
 import { observer } from '@formily/reactive-vue'
-import { FormProvider, createSchemaField } from '@silver-formily/vue'
-import { cloneVNode, defineComponent, isVNode, type PropType } from 'vue'
+import { createSchemaField, FormProvider } from '@silver-formily/vue'
+import { defineComponent } from 'vue'
 
-type SlotPayload = {
+interface SlotPayload {
   slotProp: string
   onScopedFunc: (value: string) => void
 }
@@ -19,6 +20,7 @@ const TextPreviewer = defineComponent({
 
     return () => (
       <div>
+        这里是TextPreviewer组件：
         {slots.default?.({
           slotProp: '有 default 作用域插槽组件的插槽属性值',
           onScopedFunc: handleScopedFunc,
@@ -35,12 +37,7 @@ const ObservedComponent = observer(
       return () => (
         <TextPreviewer
           v-slots={{
-            default: (payload: SlotPayload) => {
-              const children = slots.default?.() ?? []
-              return children.map((child) =>
-                isVNode(child) ? cloneVNode(child, payload) : child,
-              )
-            },
+            default: (payload: SlotPayload) => slots.default?.(payload),
           }}
         />
       )
@@ -83,7 +80,7 @@ const schema = {
   type: 'object',
   properties: {
     textPreview: {
-      type: 'string',
+      'type': 'string',
       'x-component': 'ObservedComponent',
       'x-content': {
         default: ScopedSlotComponent,

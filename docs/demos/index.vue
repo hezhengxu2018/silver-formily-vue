@@ -84,9 +84,9 @@ export default {
       :reactions="createPasswordEqualValidate('password')"
     />
     <FormConsumer>
-      <template #default="{ form }">
+      <template #default="{ form: _form }">
         <div style="white-space: pre">
-          {{ JSON.stringify(form.values, null, 2) }}
+          {{ JSON.stringify(_form.values, null, 2) }}
         </div>
       </template>
     </FormConsumer>

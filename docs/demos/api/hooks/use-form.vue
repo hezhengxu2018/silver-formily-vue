@@ -1,3 +1,27 @@
+<script setup lang="tsx">
+import { createForm } from '@formily/core'
+import { observer } from '@formily/reactive-vue'
+import { Field, FormProvider, useForm } from '@silver-formily/vue'
+import { ElInput, ElSpace } from 'element-plus'
+import { defineComponent } from 'vue'
+
+const Custom = observer(
+  defineComponent({
+    name: 'Custom',
+    setup() {
+      const formRef = useForm()
+      return () => (
+        <div>
+          {formRef.value?.values.input}
+        </div>
+      )
+    },
+  }),
+)
+
+const form = createForm({ validateFirst: true })
+</script>
+
 <template>
   <FormProvider :form="form">
     <ElSpace>
@@ -6,40 +30,3 @@
     </ElSpace>
   </FormProvider>
 </template>
-
-<script>
-import { defineComponent, h } from 'vue'
-import { createForm } from '@formily/core'
-import { FormProvider, Field, useForm } from '@silver-formily/vue'
-import { observer } from '@formily/reactive-vue'
-import { ElInput, ElSpace } from 'element-plus'
-
-
-const Custom = observer(
-  defineComponent({
-    setup() {
-      const formRef = useForm()
-      return () => {
-        const form = formRef.value
-        return h('div', {}, [form.values.input])
-      }
-    },
-  })
-)
-
-export default {
-  components: {
-    FormProvider,
-    Field,
-    ElSpace,
-  },
-  data() {
-    const form = createForm({ validateFirst: true })
-    return {
-      ElInput,
-      Custom,
-      form,
-    }
-  },
-}
-</script>

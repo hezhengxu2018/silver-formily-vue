@@ -1,4 +1,5 @@
-<script setup lang="ts">
+<script setup lang="tsx">
+import type { Field as FieldType } from '@formily/core'
 import { createForm, setValidateLanguage } from '@formily/core'
 import { observer } from '@formily/reactive-vue'
 import { Field, FormConsumer, FormProvider, useField } from '@silver-formily/vue'
@@ -10,7 +11,7 @@ setValidateLanguage('en')
 const FormItem = observer(
   defineComponent({
     setup(_props, { slots }) {
-      const fieldRef = useField()
+      const fieldRef = useField<FieldType>()
       return () => (
         <ElFormItem
           label={fieldRef.value?.title}
@@ -44,9 +45,9 @@ function log(values: string) {
         :component="[ElInput, { placeholder: 'Please ElInput' }]"
       />
       <FormConsumer>
-        <template #default="{ form }">
+        <template #default="{ form: _form }">
           <div style="white-space: pre; margin-bottom: 16px">
-            {{ JSON.stringify(form.values, null, 2) }}
+            {{ JSON.stringify(_form.values, null, 2) }}
           </div>
           <ElButton
             type="primary"

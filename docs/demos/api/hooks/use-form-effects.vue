@@ -1,16 +1,16 @@
 <script setup lang="tsx">
 import { createForm, isField, onFieldReact } from '@formily/core'
 import { Field, FormConsumer, FormProvider, useFormEffects } from '@silver-formily/vue'
-import { ElInput, ElFormItem } from 'element-plus'
+import { ElFormItem, ElInput } from 'element-plus'
 import { defineComponent } from 'vue'
-
 
 const Custom = defineComponent({
   name: 'Custom',
   setup() {
     useFormEffects(() => {
       onFieldReact('custom.bb', (field) => {
-        if (!isField(field)) return
+        if (!isField(field))
+          return
         field.value = field.query('.aa').get('value')
       })
     })
@@ -35,7 +35,8 @@ const Custom = defineComponent({
 const form = createForm({
   effects() {
     onFieldReact('custom.aa', (field) => {
-      if (!isField(field)) return
+      if (!isField(field))
+        return
       field.value = field.query('input').get('value')
     })
   },
@@ -51,8 +52,8 @@ const form = createForm({
     />
     <Field name="custom" :component="[Custom]" />
     <FormConsumer>
-      <template #default="{ form }">
-        {{ form.values }}
+      <template #default="{ form: _form }">
+        {{ _form.values }}
       </template>
     </FormConsumer>
   </FormProvider>

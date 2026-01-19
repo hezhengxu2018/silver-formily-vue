@@ -12,7 +12,7 @@ SchemaField 组件是专门用于解析[JSON-Schema](/api/shared/schema)动态�
 ## 签名
 
 ```ts
-type ComposeSchemaField = {
+interface ComposeSchemaField {
   SchemaField: Vue.Component<any, any, any, ISchemaFieldProps>
   SchemaMarkupField: Vue.Component<any, any, any, ISchema>
   SchemaStringField: Vue.Component<any, any, any, Omit<ISchema, 'type'>>
@@ -25,22 +25,22 @@ type ComposeSchemaField = {
   SchemaNumberField: Vue.Component<any, any, any, Omit<ISchema, 'type'>>
 }
 
-//工厂函数参数属性
+// 工厂函数参数属性
 interface ISchemaFieldFactoryProps {
   components?: {
-    [key: string]: Vue.Component //组件列表
+    [key: string]: Vue.Component // 组件列表
   }
-  scope?: any //全局作用域，用于实现协议表达式变量注入
+  scope?: any // 全局作用域，用于实现协议表达式变量注入
 }
 
-//SchemaField属性
+// SchemaField属性
 interface ISchemaFieldProps extends IFieldFactoryProps {
-  schema?: ISchema //字段schema
-  scope?: any //协议表达式作用域
-  name?: string //字段名称
+  schema?: ISchema // 字段schema
+  scope?: any // 协议表达式作用域
+  name?: string // 字段名称
 }
 
-//工厂函数
+// 工厂函数
 interface createSchemaField {
   (props: ISchemaFieldFactoryProps): ComposeSchemaField
 }

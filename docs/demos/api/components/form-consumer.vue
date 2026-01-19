@@ -10,8 +10,8 @@ const form = createForm()
   <FormProvider :form="form">
     <Field name="input" :component="[ElInput]" />
     <FormConsumer>
-      <template #default="{ form }">
-        {{ form.values.input }}
+      <template #default="{ form: _form }">
+        {{ _form.values.input }}
       </template>
     </FormConsumer>
   </FormProvider>

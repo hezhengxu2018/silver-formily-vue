@@ -39,17 +39,17 @@ export default defineConfig<EPThemeConfig>({
       {
         text: '指南',
         link: '/guide/',
-        activeMatch: '/guide/'
+        activeMatch: '/guide/',
       },
       {
         text: 'API',
         link: '/api/components/field',
-        activeMatch: '/api/'
+        activeMatch: '/api/',
       },
       {
         text: 'Q&A',
         link: '/questions/',
-        activeMatch: '/questions/'
+        activeMatch: '/questions/',
       },
     ],
     sidebar: {

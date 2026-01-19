@@ -9,10 +9,10 @@
 ```ts
 import { Field, GeneralField } from '@formily/core'
 
-type IStateMapper<Props> =
-  | {
-      [key in keyof Field]?: keyof Props | boolean
-    }
+type IStateMapper<Props>
+  = | {
+    [key in keyof Field]?: keyof Props | boolean
+  }
   | ((props: Props, field: GeneralField) => Props)
 
 interface mapProps<T extends Vue.Component> {

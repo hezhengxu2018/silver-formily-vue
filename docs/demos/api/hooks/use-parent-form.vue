@@ -1,14 +1,14 @@
 <script setup lang="tsx">
 import { createForm } from '@formily/core'
+import { observer } from '@formily/reactive-vue'
 import {
   FormProvider,
   ObjectField,
-  VoidField,
   useParentForm,
+  VoidField,
 } from '@silver-formily/vue'
-import { observer } from '@formily/reactive-vue'
+import { ElText } from 'element-plus'
 import { defineComponent } from 'vue'
-import { ElText } from "element-plus";
 
 const Custom = observer(
   defineComponent({
@@ -21,7 +21,7 @@ const Custom = observer(
         </p>
       )
     },
-  })
+  }),
 )
 
 const form = createForm()

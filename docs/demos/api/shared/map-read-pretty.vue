@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Field as FieldType } from '@formily/core'
 import { createForm, setValidateLanguage } from '@formily/core'
 import {
   connect,
@@ -7,7 +8,7 @@ import {
   mapProps,
   mapReadPretty,
 } from '@silver-formily/vue'
-import { ElInput, ElFormItem, ElForm } from 'element-plus'
+import { ElForm, ElFormItem, ElInput } from 'element-plus'
 import { defineComponent, h } from 'vue'
 
 setValidateLanguage('en')
@@ -21,7 +22,7 @@ const FormItem = connect(
       required: true,
       validateStatus: true,
     },
-    (props, field) => ({
+    (props, field: FieldType) => ({
       ...props,
       help: field.selfErrors?.length ? field.selfErrors : undefined,
     }),
@@ -50,7 +51,7 @@ const form = createForm({ validateFirst: true, readPretty: true })
         name="name"
         title="Name"
         required
-        initialValue="Hello world"
+        initial-value="Hello world"
         :decorator="[FormItem]"
         :component="[Input, { placeholder: 'Please ElInput' }]"
       />

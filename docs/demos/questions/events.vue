@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createForm } from '@formily/core'
-import { FormProvider, createSchemaField } from '@silver-formily/vue'
+import { createSchemaField, FormProvider } from '@silver-formily/vue'
 import { ElInput } from 'element-plus'
 
 const { SchemaField } = createSchemaField({
@@ -9,12 +9,12 @@ const { SchemaField } = createSchemaField({
   },
 })
 
-const handleChange = (e: unknown) => {
+function handleChange(e: unknown) {
   // eslint-disable-next-line no-console
   console.log(e)
 }
 
-const handleFocus = (e: unknown) => {
+function handleFocus(e: unknown) {
   // eslint-disable-next-line no-console
   console.log(e)
 }
@@ -23,11 +23,11 @@ const schema = {
   type: 'object',
   properties: {
     input: {
-      type: 'string',
+      'type': 'string',
       'x-component': 'ElInput',
       'x-component-props': {
         '@change': handleChange,
-        onFocus: handleFocus,
+        'onFocus': handleFocus,
       },
     },
   },

@@ -16,7 +16,7 @@ type FormProvider = Vue.Component<
   any,
   any,
   {
-    form: Form //通过createForm创建的form实例
+    form: Form // 通过createForm创建的form实例
   }
 >
 ```

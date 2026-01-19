@@ -12,13 +12,13 @@ order: 5
 
 ```ts
 interface IRecursionFieldProps {
-  schema: Schema //schema对象
-  name?: string //路径名称
-  basePath?: FormPathPattern //基础路径
-  onlyRenderProperties?: boolean //是否只渲染properties
-  onlyRenderSelf?: boolean //是否只渲染自身，不渲染properties
-  mapProperties?: (schema: Schema, name: string) => Schema //schema properties映射器，主要用于改写schema
-  filterProperties?: (schema: Schema, name: string) => boolean //schema properties过滤器，被过滤掉的schema节点不会被渲染
+  schema: Schema // schema对象
+  name?: string // 路径名称
+  basePath?: FormPathPattern // 基础路径
+  onlyRenderProperties?: boolean // 是否只渲染properties
+  onlyRenderSelf?: boolean // 是否只渲染自身，不渲染properties
+  mapProperties?: (schema: Schema, name: string) => Schema // schema properties映射器，主要用于改写schema
+  filterProperties?: (schema: Schema, name: string) => boolean // schema properties过滤器，被过滤掉的schema节点不会被渲染
 }
 
 type RecursionField = Vue.Component<IRecursionFieldProps>

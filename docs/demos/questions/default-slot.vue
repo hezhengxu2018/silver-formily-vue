@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { createForm } from '@formily/core'
-import { FormProvider, createSchemaField } from '@silver-formily/vue'
+import { createSchemaField, FormProvider } from '@silver-formily/vue'
 import { ElButton } from 'element-plus'
 
 const { SchemaField } = createSchemaField({
@@ -13,7 +13,7 @@ const schema = {
   type: 'object',
   properties: {
     button: {
-      type: 'void',
+      'type': 'void',
       'x-component': 'ElButton',
       'x-content': '一个普通的按钮',
     },

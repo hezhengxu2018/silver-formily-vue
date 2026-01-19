@@ -13,12 +13,12 @@ const form = createForm()
         <Field name="input" :component="[ElInput]" />
       </VoidField>
       <FormConsumer>
-        <template #default="{ form }">
+        <template #default="{ form: _form }">
           <ElSpace>
             <ElButton
               @click="
                 () => {
-                  form
+                  _form
                     .query('layout')
                     .take()
                     .setState((state) => {

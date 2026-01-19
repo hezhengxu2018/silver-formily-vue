@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Field as TypeField } from '@formily/core'
 import { createForm, setValidateLanguage } from '@formily/core'
 import {
   connect,
@@ -7,7 +8,7 @@ import {
   FormProvider,
   mapProps,
 } from '@silver-formily/vue'
-import { ElButton, ElInput, ElFormItem } from 'element-plus'
+import { ElButton, ElFormItem, ElInput } from 'element-plus'
 
 setValidateLanguage('en')
 
@@ -20,7 +21,7 @@ const FormItem = connect(
       required: true,
       validateStatus: true,
     },
-    (props, field) => ({
+    (props, field: TypeField) => ({
       ...props,
       help: field.selfErrors?.length ? field.selfErrors : undefined,
     }),
@@ -29,12 +30,12 @@ const FormItem = connect(
 
 const form = createForm({ validateFirst: true })
 
-const log = (...args: unknown[]) => {
+function log(...args: unknown[]) {
   // eslint-disable-next-line no-console
   console.log(...args)
 }
 
-const handleSubmit = () => {
+function handleSubmit() {
   form.submit(log)
 }
 </script>
@@ -50,9 +51,9 @@ const handleSubmit = () => {
         :component="[ElInput, { placeholder: 'Please ElInput' }]"
       />
       <FormConsumer>
-        <template #default="{ form }">
+        <template #default="{ form: _form }">
           <div style="white-space: pre; margin-bottom: 16px">
-            {{ JSON.stringify(form.values, null, 2) }}
+            {{ JSON.stringify(_form.values, null, 2) }}
           </div>
           <ElButton type="primary" @click="handleSubmit">
             Submit
