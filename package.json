@@ -1,7 +1,7 @@
 {
   "name": "@sliver/formily-vue",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1-beta.0",
   "description": "Vue3 版本的 @formily/vue",
   "author": "hezhengxu",
   "license": "MIT",
