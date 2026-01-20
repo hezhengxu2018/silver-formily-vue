@@ -92,29 +92,24 @@ export default defineComponent({
 
         const componentEntry = Array.isArray(field.component) ? field.component[1] : undefined
         const originData = toJS(componentEntry) || {}
-        const fieldValue = !isVoidField(field) ? field.value : undefined
         const composedAttrs = {
           disabled: !isVoidField(field)
             ? field.pattern === 'disabled' || field.pattern === 'readPretty'
             : undefined,
           readOnly: !isVoidField(field) ? field.pattern === 'readOnly' : undefined,
           ...originData,
-          modelValue: fieldValue,
+          value: !isVoidField(field) ? field.value : undefined,
         }
         const { attrs, events } = extractAttrsAndEvents(composedAttrs)
-        const modelUpdateHandler: ComponentEventHandler | undefined = events['update:modelValue']
+        const changeHandler: ComponentEventHandler | undefined = events.change
         const focusHandler: ComponentEventHandler | undefined = events.focus
         const blurHandler: ComponentEventHandler | undefined = events.blur
 
-        const emitInput = (...args: ComponentEventArgs) => {
+        events.change = (...args: ComponentEventArgs) => {
           if (!isVoidField(field)) {
             field.onInput(...(args as Parameters<typeof field.onInput>))
           }
-        }
-
-        events['update:modelValue'] = (...args: ComponentEventArgs) => {
-          emitInput(...args)
-          modelUpdateHandler?.(...args)
+          changeHandler?.(...args)
         }
         events.focus = (...args: ComponentEventArgs) => {
           if (!isVoidField(field)) {
@@ -130,6 +125,7 @@ export default defineComponent({
         }
 
         const componentProps = createVNodeProps(attrs, events)
+
         return h(component, componentProps, mergedSlots)
       }
 
