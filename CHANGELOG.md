@@ -2,6 +2,13 @@
 
 
 
+## [0.0.1-beta.1](https://github.com/hezhengxu2018/silver-formily-vue/compare/v0.0.1-beta.0...v0.0.1-beta.1) (2026-01-20)
+
+
+### Features
+
+* 退回对事件的修改 ([d863c11](https://github.com/hezhengxu2018/silver-formily-vue/commit/d863c11f077b1f83e849841ed7edca36fc192b64))
+
 ## 0.0.1-beta.0 (2026-01-19)
 
 
