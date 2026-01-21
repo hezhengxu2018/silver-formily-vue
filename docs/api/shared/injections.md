@@ -1,10 +1,15 @@
+---
+aside: true
+outline: 2
+---
+
 # injections
 
 ## 描述
 
-@formily/vue 的所有 injections，方便用户做更复杂的个性化定制，我们可以通过 inject 来消费这些上下文
+`@silver-formily/vue` 的所有 Symbol，可以通过注入这些 Symbol 来消费上下文实现更复杂的定制化开发。
 
-## FormContext
+## FormSymbol
 
 #### 描述
 
@@ -13,12 +18,13 @@ Form 上下文，可以获取当前 Form 实例
 #### 签名
 
 ```ts
-import { Form } from '@formily/core'
+import type { Form } from '@formily/core'
+import type { InjectionKey, Ref } from 'vue'
 
-const FormContext = inject<Form>(FormSymbol)
+export const FormSymbol: InjectionKey<Ref<Form>> = Symbol('form')
 ```
 
-## FieldContext
+## FieldSymbol
 
 #### 描述
 
@@ -27,12 +33,13 @@ const FormContext = inject<Form>(FormSymbol)
 #### 签名
 
 ```ts
-import { GeneralField } from '@formily/core'
+import type { GeneralField } from '@formily/core'
+import type { InjectionKey, Ref } from 'vue'
 
-const FieldContext = inject<GeneralField>(FieldSymbol)
+export const FieldSymbol: InjectionKey<Ref<GeneralField>> = Symbol('field')
 ```
 
-## SchemaMarkupContext
+## SchemaMarkupSymbol
 
 #### 描述
 
@@ -41,10 +48,13 @@ Schema 标签上下文，主要用于收集 JSX Markup 写法的 Schema 标签�
 #### 签名
 
 ```ts
-SchemaMarkupContext = inject<Schema>(SchemaMarkupSymbol)
+import type { Schema } from '@formily/json-schema'
+import type { InjectionKey, Ref } from 'vue'
+
+export const SchemaMarkupSymbol: InjectionKey<Ref<Schema>> = Symbol('schemaMarkup')
 ```
 
-## SchemaContext
+## SchemaSymbol
 
 #### 描述
 
@@ -53,10 +63,13 @@ SchemaMarkupContext = inject<Schema>(SchemaMarkupSymbol)
 #### 签名
 
 ```ts
-const SchemaContext = inject<Schema>(SchemaSymbol)
+import type { Schema } from '@formily/json-schema'
+import type { InjectionKey, Ref } from 'vue'
+
+export const SchemaSymbol: InjectionKey<Ref<Schema>> = Symbol('schema')
 ```
 
-## SchemaExpressionScopeContext
+## SchemaExpressionScopeSymbol
 
 #### 描述
 
@@ -65,10 +78,15 @@ Schema 表达式作用域上下文
 #### 签名
 
 ```ts
-const SchemaExpressionScopeContext = inject<any>(SchemaExpressionScopeSymbol)
+import type { InjectionKey, Ref } from 'vue'
+
+export type SchemaExpressionScope = Record<string, unknown>
+
+export const SchemaExpressionScopeSymbol: InjectionKey<Ref<SchemaExpressionScope>>
+  = Symbol('schemaExpression')
 ```
 
-## SchemaOptionsContext
+## SchemaOptionsSymbol
 
 #### 描述
 
@@ -77,6 +95,15 @@ Schema 全局参数上下文，主要用于获取从 createSchemaField 传入的
 #### 签名
 
 ```ts
-const SchemaOptionsContext
-  = inject<ISchemaFieldFactoryOptions>(SchemaOptionsSymbol)
+import type { InjectionKey, Ref } from 'vue'
+
+export interface ISchemaFieldVueFactoryOptions<
+  Components extends SchemaVueComponents = SchemaVueComponents,
+> {
+  components?: Components
+  scope?: SchemaExpressionScope
+}
+
+export const SchemaOptionsSymbol: InjectionKey<Ref<ISchemaFieldVueFactoryOptions>>
+  = Symbol('schemaOptions')
 ```

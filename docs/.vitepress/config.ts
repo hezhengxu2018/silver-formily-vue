@@ -7,8 +7,9 @@ import { defineConfig } from 'vitepress'
 import { createDemoContainer } from 'vitepress-better-demo-plugin'
 import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { mdExternalLinkIcon, mdTableWrapper, mdTag, mdTooltip } from 'vitepress-theme-element-plus/node'
+import pkg from '../../package.json' with { type: 'json' }
 
-const SITE_URL = 'https://silver-formily-element-plus.pages.dev'
+const SITE_URL = 'https://vue.silver-formily.org'
 
 export default defineConfig<EPThemeConfig>({
   title: 'Silver Formily Vue',
@@ -27,6 +28,7 @@ export default defineConfig<EPThemeConfig>({
     hostname: SITE_URL,
   },
   themeConfig: {
+    version: pkg.version,
     search: {
       provider: 'local',
     },
