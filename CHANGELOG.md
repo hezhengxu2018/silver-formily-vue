@@ -2,6 +2,13 @@
 
 
 
+## [1.0.1](https://github.com/hezhengxu2018/silver-formily-vue/compare/v1.0.0...v1.0.1) (2026-01-21)
+
+
+### Bug Fixes
+
+* 修复模块导出错误导致的打包warning ([012a0c4](https://github.com/hezhengxu2018/silver-formily-vue/commit/012a0c435a9c5eddb2ed34e0fe334d21784feec4))
+
 # [1.0.0](https://github.com/hezhengxu2018/silver-formily-vue/compare/v0.0.1-beta.1...v1.0.0) (2026-01-21)
 
 ## [0.0.1-beta.1](https://github.com/hezhengxu2018/silver-formily-vue/compare/v0.0.1-beta.0...v0.0.1-beta.1) (2026-01-20)
