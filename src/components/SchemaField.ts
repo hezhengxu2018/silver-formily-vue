@@ -4,21 +4,18 @@ import type {
   ISchemaFieldVueFactoryOptions,
   SchemaExpressionScope,
   SchemaVueComponents,
-  // ISchemaMarkupFieldProps,
-  // ISchemaTypeFieldProps,
 } from '../types'
 import type { MarkupSchemaProps } from '../utils/schemaFieldProps'
 import { Schema } from '@formily/json-schema'
 import { lazyMerge } from '@formily/shared'
 import { computed, defineComponent, Fragment, h, inject, provide, shallowRef, watch } from 'vue'
-import { RecursionField } from '../components'
 import { SchemaExpressionScopeSymbol, SchemaMarkupSymbol, SchemaOptionsSymbol } from '../shared'
 import { resolveSchemaProps } from '../utils/resolveSchemaProps'
 import {
   markupSchemaProps,
-
   schemaFieldProps,
 } from '../utils/schemaFieldProps'
+import RecursionField from './RecursionField'
 
 const env = {
   nonameId: 0,
