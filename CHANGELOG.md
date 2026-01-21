@@ -2,6 +2,13 @@
 
 
 
+## [2.0.1](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.0.0...v2.0.1) (2026-01-21)
+
+
+### Bug Fixes
+
+* 修复重复导出导致的warning ([6127ad6](https://github.com/hezhengxu2018/silver-formily-vue/commit/6127ad680f6cc15398fff16c35529167133f8552))
+
 # [2.0.0](https://github.com/hezhengxu2018/silver-formily-vue/compare/v1.0.0...v2.0.0) (2026-01-21)
 
 
