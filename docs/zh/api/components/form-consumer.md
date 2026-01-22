@@ -1,7 +1,3 @@
----
-order: 7
----
-
 # FormConsumer
 
 ## 描述
@@ -17,3 +13,11 @@ Form 参考[Form](https://core.formilyjs.org/api/models/form)
 ::: demo
 api/components/form-consumer
 :::
+
+## API
+
+### FormConsumer 插槽
+
+| 插槽名  | 说明     | 类型                      |
+| ------- | -------- | ------------------------- |
+| default | 默认插槽 | ^[object]`{ form: Form }` |

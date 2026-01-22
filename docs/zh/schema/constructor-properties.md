@@ -64,7 +64,7 @@ class Schema {
 
 #### 详细说明
 
-- x-component 的组件标识与[createSchemaField](/api/components/schema-field#签名)传入的组件集合的 Key 匹配
-- x-decorator 的组件标识与[createSchemaField](/api/components/schema-field#签名)传入的组件集合的 Key 匹配
+- x-component 的组件标识与[createSchemaField](/zh/api/components/schema-field#签名)传入的组件集合的 Key 匹配
+- x-decorator 的组件标识与[createSchemaField](/zh/api/components/schema-field#签名)传入的组件集合的 Key 匹配
 - Schema 的每个属性都能使用字符串表达式<code v-pre>{{expression}}</code>，表达式变量可以从 createSchemaField 中传入，也可以从 SchemaField 组件中传入
 - $ref 指定 Schema 预定义的格式必须是<code v-pre>#/definitions/address</code>这种格式，不支持加载远程 JSON Schema
