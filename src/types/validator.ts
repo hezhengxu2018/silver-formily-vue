@@ -1,18 +1,18 @@
-export type ValidatorFormats =
-  | 'url'
-  | 'email'
-  | 'ipv6'
-  | 'ipv4'
-  | 'number'
-  | 'integer'
-  | 'idcard'
-  | 'qq'
-  | 'phone'
-  | 'money'
-  | 'zh'
-  | 'date'
-  | 'zip'
-  | (string & {})
+export type ValidatorFormats
+  = | 'url'
+    | 'email'
+    | 'ipv6'
+    | 'ipv4'
+    | 'number'
+    | 'integer'
+    | 'idcard'
+    | 'qq'
+    | 'phone'
+    | 'money'
+    | 'zh'
+    | 'date'
+    | 'zip'
+    | (string & {})
 
 export interface IValidateResult {
   type: 'error' | 'warning' | 'success' | (string & {})
@@ -56,10 +56,10 @@ export type ValidatorFunction<Context = any> = (
   render: (message: string, scope?: any) => string,
 ) => ValidatorFunctionResponse | Promise<ValidatorFunctionResponse> | null
 
-export type ValidatorDescription<Context = any> =
-  | ValidatorFormats
-  | ValidatorFunction<Context>
-  | IValidatorRules<Context>
+export type ValidatorDescription<Context = any>
+  = | ValidatorFormats
+    | ValidatorFunction<Context>
+    | IValidatorRules<Context>
 
 export type MultiValidator<Context = any> = ValidatorDescription<Context>[]
 
