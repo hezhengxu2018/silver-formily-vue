@@ -2,6 +2,13 @@
 
 
 
+## [1.0.2](https://github.com/hezhengxu2018/silver-formily-vue/compare/v1.0.1...v1.0.2) (2026-01-22)
+
+
+### Bug Fixes
+
+* **dts:** 添加验证器类型和接口 ([c9393cf](https://github.com/hezhengxu2018/silver-formily-vue/commit/c9393cf7a199d5a953f5afe6a084dfdf792b3014))
+
 ## [1.0.1](https://github.com/hezhengxu2018/silver-formily-vue/compare/v1.0.0...v1.0.1) (2026-01-21)
 
 
