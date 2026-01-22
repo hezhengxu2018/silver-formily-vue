@@ -1,17 +1,31 @@
 import type {
+  IFieldFactoryProps as CoreFieldFactoryProps,
+  IFieldProps as CoreFieldProps,
   Field,
   FieldDisplayTypes,
-  FieldValidator,
   Form,
   FormPatternTypes,
   GeneralField,
-  IFieldFactoryProps,
   IVoidFieldFactoryProps,
 } from '@formily/core'
 import type { ISchema, Schema, SchemaKey } from '@formily/json-schema'
 import type { FormPathPattern } from '@formily/shared'
-import type { Validator as FormilyValidator } from '@formily/validator'
 import type { Component } from 'vue'
+import type {
+  MultiValidator as FormilyMultiValidator,
+  IValidateResult as FormilyValidateResult,
+  Validator as FormilyValidator,
+  ValidatorFunction as FormilyValidatorFunction,
+  ValidatorFunctionResponse as FormilyValidatorResponse,
+  IValidatorRules as FormilyValidatorRules,
+} from './validator'
+
+export type SchemaFieldValidator = FormilyValidator
+export type SchemaValidatorFunction = FormilyValidatorFunction<any>
+export type SchemaValidatorRules = FormilyValidatorRules<any>
+export type SchemaMultiValidator = FormilyMultiValidator<any>
+export type SchemaValidateResult = FormilyValidateResult
+export type SchemaValidatorResponse = FormilyValidatorResponse
 
 export interface VueComponentOptionsWithProps {
   props: Record<string, unknown>
@@ -27,10 +41,23 @@ export interface IProviderProps {
   form: Form
 }
 
-export type IFieldProps<
+export interface IFieldProps<
   D extends Component = Component,
   C extends Component = Component,
-> = IFieldFactoryProps<D, C>
+  TextType = any,
+  ValueType = any,
+> extends Omit<CoreFieldProps<D, C, TextType, ValueType>, 'validator'> {
+  validator?: SchemaFieldValidator
+}
+
+export interface IFieldFactoryProps<
+  D extends Component = Component,
+  C extends Component = Component,
+  TextType = any,
+  ValueType = any,
+> extends Omit<CoreFieldFactoryProps<D, C, TextType, ValueType>, 'validator'> {
+  validator?: SchemaFieldValidator
+}
 
 export type IVoidFieldProps<
   D extends Component = Component,
@@ -99,10 +126,10 @@ export type ComponentPropsByPathValue<
   P extends ComponentPath<T>,
 > = P extends keyof T ? VueComponentProps<T[P]> : never
 
-export type ISchemaMarkupFieldProps<
-  Components extends SchemaVueComponents = SchemaVueComponents,
-  Decorator extends ComponentPath<Components> = ComponentPath<Components>,
-  Component extends ComponentPath<Components> = ComponentPath<Components>,
+type BaseSchemaMarkupFieldProps<
+  Components extends SchemaVueComponents,
+  Decorator extends ComponentPath<Components>,
+  Component extends ComponentPath<Components>,
 > = ISchema<
   Decorator,
   Component,
@@ -110,10 +137,32 @@ export type ISchemaMarkupFieldProps<
   ComponentPropsByPathValue<Components, Component>,
   FormPatternTypes,
   FieldDisplayTypes,
-  FieldValidator,
+  SchemaFieldValidator,
   string,
   GeneralField
 >
+
+type SchemaMarkupFieldShape = ISchema<
+  string,
+  string,
+  Record<string, unknown>,
+  Record<string, unknown>,
+  FormPatternTypes,
+  FieldDisplayTypes,
+  SchemaFieldValidator,
+  string,
+  GeneralField
+>
+
+export type SchemaMarkupValidator = SchemaMarkupFieldShape['x-validator']
+
+export type ISchemaMarkupFieldProps<
+  Components extends SchemaVueComponents = SchemaVueComponents,
+  Decorator extends ComponentPath<Components> = ComponentPath<Components>,
+  Component extends ComponentPath<Components> = ComponentPath<Components>,
+> = Omit<BaseSchemaMarkupFieldProps<Components, Decorator, Component>, 'x-validator'> & {
+  'x-validator'?: SchemaMarkupValidator
+}
 
 export type ISchemaTypeFieldProps<
   Components extends SchemaVueComponents = SchemaVueComponents,
