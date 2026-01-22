@@ -1,5 +1,9 @@
 import type { ComponentObjectPropsOptions, ExtractPropTypes } from 'vue'
-import type { ISchemaFieldProps, ISchemaMarkupFieldProps } from '../types'
+import type {
+  ISchemaFieldProps,
+  ISchemaMarkupFieldProps,
+  SchemaMarkupValidator,
+} from '../types'
 import { createBooleanProp, createProp } from './runtimeProps'
 
 export const schemaFieldProps = {
@@ -47,7 +51,7 @@ export const markupSchemaProps = {
   'x-index': createProp<ISchemaMarkupFieldProps['x-index']>(),
   'x-pattern': createProp<ISchemaMarkupFieldProps['x-pattern']>(),
   'x-display': createProp<ISchemaMarkupFieldProps['x-display']>(),
-  'x-validator': createProp<ISchemaMarkupFieldProps['x-validator']>(),
+  'x-validator': createProp<SchemaMarkupValidator>(),
   'x-decorator': createProp<ISchemaMarkupFieldProps['x-decorator']>(),
   'x-decorator-props': createProp<ISchemaMarkupFieldProps['x-decorator-props']>(),
   'x-component': createProp<ISchemaMarkupFieldProps['x-component']>(),
