@@ -2,6 +2,13 @@
 
 
 
+## [2.0.3](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.0.2...v2.0.3) (2026-01-24)
+
+
+### Bug Fixes
+
+* 更新 package.json 文件，添加 exports 字段并修正 main 和 types 路径 ([3419140](https://github.com/hezhengxu2018/silver-formily-vue/commit/3419140e3f63993b80187caf7bbc57afc1bac2bf))
+
 ## [2.0.2](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.0.1...v2.0.2) (2026-01-22)
 
 
