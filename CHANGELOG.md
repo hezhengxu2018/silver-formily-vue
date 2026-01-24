@@ -2,6 +2,13 @@
 
 
 
+## [2.0.4](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.0.3...v2.0.4) (2026-01-24)
+
+
+### Bug Fixes
+
+* **field-schema:** 添加对ssr的支持 ([ddfea5a](https://github.com/hezhengxu2018/silver-formily-vue/commit/ddfea5af98a6a7af3cef9abf0a16402ce13b46c2))
+
 ## [2.0.3](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.0.2...v2.0.3) (2026-01-24)
 
 
