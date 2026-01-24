@@ -113,7 +113,7 @@ export function createSchemaField<Components extends SchemaVueComponents = Schem
       )
       provide(SchemaMarkupSymbol, schemaRef)
 
-      return () => h(Fragment, null, slots.default?.())
+      return () => h(Fragment, null, slots.default?.() ?? [])
     },
   })
 
