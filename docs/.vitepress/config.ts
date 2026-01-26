@@ -1,5 +1,6 @@
 import type { EPThemeConfig } from 'vitepress-theme-element-plus'
 import path from 'node:path'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import mdContainer from 'markdown-it-container'
 import VueMacros from 'unplugin-vue-macros/vite'
@@ -16,7 +17,8 @@ const sharedThemeConfig: EPThemeConfig = {
   search: {
     provider: 'local',
   },
-  aside: false,
+  aside: true,
+  outline: [2, 4],
   footer: {
     message: 'Released under the MIT License.',
   },
@@ -69,6 +71,16 @@ const zhSidebar: EPThemeConfig['sidebar'] = {
         { text: 'mapReadPretty', link: '/zh/api/shared/map-read-pretty' },
         { text: 'observer', link: '/zh/api/shared/observer' },
         { text: 'schema', link: '/zh/api/shared/schema' },
+      ],
+    },
+  ],
+  '/zh/types/': [
+    {
+      text: '类型声明',
+      items: [
+        { text: 'Field', link: '/zh/types/field' },
+        { text: 'Path', link: '/zh/types/path' },
+        { text: 'FieldValidator', link: '/zh/types/validator#fieldvalidator' },
       ],
     },
   ],
@@ -132,6 +144,11 @@ export default defineConfig<EPThemeConfig>({
             activeMatch: '^/zh/api/',
           },
           {
+            text: '类型声明',
+            link: '/zh/types/',
+            activeMatch: '^/zh/types/',
+          },
+          {
             text: 'Q&A',
             link: '/zh/questions/',
             activeMatch: '^/zh/questions/',
@@ -164,8 +181,10 @@ export default defineConfig<EPThemeConfig>({
       md.use(mdContainer, 'demo', createDemoContainer(md, {
         demoDir: path.resolve(import.meta.dirname, '../zh/demos'),
         autoImportWrapper: false,
+        codeFold: false,
       }))
     },
+    codeTransformers: [transformerTwoslash()],
   },
   vite: {
     resolve: {

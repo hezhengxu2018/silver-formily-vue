@@ -1,7 +1,3 @@
----
-order: 1
----
-
 # ArrayField
 
 ## 描述
@@ -21,3 +17,5 @@ api/components/array-field
 ## API
 
 与Field组件的[API](/zh/api/components/field.html#api)完全一致
+
+<!--@include: ./field.md{23,}-->

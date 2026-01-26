@@ -8,6 +8,7 @@ export default antfu({
   },
   rules: {
     'vue/one-component-per-file': 'off',
+    'ts/consistent-type-definitions': 'off',
   },
   formatters: {
     css: true,
