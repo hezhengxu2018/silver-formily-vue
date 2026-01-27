@@ -8,3 +8,7 @@
   width: 150px;
   height: auto;
 }
+
+html .v-popper--theme-twoslash.v-popper__popper {
+  content-visibility: visible;
+}

@@ -48,7 +48,7 @@
     "@element-plus/icons-vue": "^2.3.2",
     "@formily/validator": "^2.3.7",
     "@release-it/conventional-changelog": "^10.0.4",
-    "@shikijs/vitepress-twoslash": "^2.5.0",
+    "@shikijs/vitepress-twoslash": "^3.21.0",
     "@types/node": "^24.3.0",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vitejs/plugin-vue-jsx": "^5.1.3",
