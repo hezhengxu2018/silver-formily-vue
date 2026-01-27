@@ -6,7 +6,11 @@
   "author": "hezhengxu",
   "license": "MIT",
   "exports": {
-    ".": "./esm/index.mjs",
+    ".": {
+      "types": "./esm/index.d.ts",
+      "import": "./esm/index.mjs",
+      "default": "./esm/index.mjs"
+    },
     "./*": "./esm/*"
   },
   "main": "./esm/index.mjs",
