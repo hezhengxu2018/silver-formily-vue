@@ -21,6 +21,8 @@ features:
     details: 没有历史包袱的重构，精简源码与过时的依赖。同时也带来了更干净的DOM结构。
   - title: 📝 更完善的类型提示
     details: 与 @formily/vue 相比提供了更完善的类型提示，提供更好的开发体验。
+  - title: ✅ 完善的SSR支持
+    details: 修复官方仓库在SSR下的渲染错误，添加对SSR的支持。
 ---
 
 <style>
