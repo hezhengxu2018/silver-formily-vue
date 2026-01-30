@@ -2,6 +2,15 @@
 
 
 
+# [2.1.0](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.0.4...v2.1.0) (2026-01-30)
+
+
+### Bug Fixes
+
+* **package:** 更新exports字段以支持类型声明和模块导入 ([ba84dfc](https://github.com/hezhengxu2018/silver-formily-vue/commit/ba84dfc9c14699c2f5fcdec9a13939a4c5e7246d))
+* **schema-field:** 修复ssr渲染异常 ([83c9efc](https://github.com/hezhengxu2018/silver-formily-vue/commit/83c9efc4aefff66e5a0cf2196a18b04350e988c8))
+* 更新 @shikijs/vitepress-twoslash 依赖至，并优化主题样式 ([2ce2557](https://github.com/hezhengxu2018/silver-formily-vue/commit/2ce25579fd431cc559eb3f87400f6b5117e41a6e))
+
 ## [2.0.4](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.0.3...v2.0.4) (2026-01-24)
 
 
