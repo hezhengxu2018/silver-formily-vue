@@ -109,7 +109,7 @@ export function createSchemaField<Components extends SchemaVueComponents = Schem
             schemaRef.value = Array.isArray(schema) ? schema[0] : schema
           }
         },
-        { immediate: true },
+        { immediate: true, flush: 'sync' },
       )
       provide(SchemaMarkupSymbol, schemaRef)
 
