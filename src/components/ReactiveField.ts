@@ -9,7 +9,7 @@ import { defineComponent, h, inject, provide, ref, shallowRef, watch } from 'vue
 import { useField, useForm } from '../hooks'
 import { useAttach } from '../hooks/useAttach'
 
-import { FieldSymbol, SchemaOptionsSymbol } from '../shared'
+import { FieldSymbol, SchemaOptionsSymbol, SchemaSymbol } from '../shared'
 import { createVNodeProps, extractAttrsAndEvents, mergeSlots, wrapFragment } from '../utils/reactiveFieldHelpers'
 
 type ComponentEventArgs = unknown[]
@@ -31,6 +31,7 @@ export default defineComponent({
     const formRef = useForm()
     const parentRef = useField()
     const optionsRef = inject(SchemaOptionsSymbol, ref())
+    const schemaRef = inject(SchemaSymbol, ref())
 
     useObserver()
 
@@ -63,6 +64,9 @@ export default defineComponent({
       }
 
       const mergedSlots = mergeSlots(field, slots, field.content)
+      const decoratorContent = schemaRef.value?.['x-decorator-content']
+        ?? props.fieldProps?.decoratorContent
+      const decoratorSlots = mergeSlots(field, slots, decoratorContent)
 
       const renderDecorator = (childNodes: Array<VNode | null | undefined>) => {
         const normalizedChildren = childNodes.filter(child => child != null) as VNode[]
@@ -78,6 +82,7 @@ export default defineComponent({
         const decoratorProps = createVNodeProps(attrs, events)
 
         return h(finalComponent, decoratorProps, {
+          ...decoratorSlots,
           default: () => normalizedChildren,
         })
       }

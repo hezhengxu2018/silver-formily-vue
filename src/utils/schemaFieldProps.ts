@@ -54,6 +54,7 @@ export const markupSchemaProps = {
   'x-validator': createProp<SchemaMarkupValidator>(),
   'x-decorator': createProp<ISchemaMarkupFieldProps['x-decorator']>(),
   'x-decorator-props': createProp<ISchemaMarkupFieldProps['x-decorator-props']>(),
+  'x-decorator-content': createProp<ISchemaMarkupFieldProps['x-decorator-content']>(),
   'x-component': createProp<ISchemaMarkupFieldProps['x-component']>(),
   'x-component-props': createProp<ISchemaMarkupFieldProps['x-component-props']>(),
   'x-reactions': createProp<ISchemaMarkupFieldProps['x-reactions']>(),

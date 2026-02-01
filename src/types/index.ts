@@ -48,6 +48,7 @@ export interface IFieldProps<
   ValueType = any,
 > extends Omit<CoreFieldProps<D, C, TextType, ValueType>, 'validator'> {
   validator?: SchemaFieldValidator
+  decoratorContent?: any
 }
 
 export interface IFieldFactoryProps<
@@ -57,12 +58,15 @@ export interface IFieldFactoryProps<
   ValueType = any,
 > extends Omit<CoreFieldFactoryProps<D, C, TextType, ValueType>, 'validator'> {
   validator?: SchemaFieldValidator
+  decoratorContent?: any
 }
 
 export type IVoidFieldProps<
   D extends Component = Component,
   C extends Component = Component,
-> = IVoidFieldFactoryProps<D, C>
+> = IVoidFieldFactoryProps<D, C> & {
+  decoratorContent?: any
+}
 
 export type IArrayFieldProps = IFieldProps
 export type IObjectFieldProps = IFieldProps
@@ -126,10 +130,32 @@ export type ComponentPropsByPathValue<
   P extends ComponentPath<T>,
 > = P extends keyof T ? VueComponentProps<T[P]> : never
 
+type SchemaContent<
+  Decorator,
+  Component,
+  DecoratorProps,
+  ComponentProps,
+  Pattern,
+  Display,
+  Validator,
+  Message,
+  ReactionField,
+> = ISchema<
+  Decorator,
+  Component,
+  DecoratorProps,
+  ComponentProps,
+  Pattern,
+  Display,
+  Validator,
+  Message,
+  ReactionField
+>['x-content']
+
 type BaseSchemaMarkupFieldProps<
-  Components extends SchemaVueComponents,
-  Decorator extends ComponentPath<Components>,
-  Component extends ComponentPath<Components>,
+  Components extends SchemaVueComponents = SchemaVueComponents,
+  Decorator extends ComponentPath<Components> = ComponentPath<Components>,
+  Component extends ComponentPath<Components> = ComponentPath<Components>,
 > = ISchema<
   Decorator,
   Component,
@@ -140,7 +166,19 @@ type BaseSchemaMarkupFieldProps<
   SchemaFieldValidator,
   string,
   GeneralField
->
+> & {
+  'x-decorator-content'?: SchemaContent<
+    Decorator,
+    Component,
+    ComponentPropsByPathValue<Components, Decorator>,
+    ComponentPropsByPathValue<Components, Component>,
+    FormPatternTypes,
+    FieldDisplayTypes,
+    SchemaFieldValidator,
+    string,
+    GeneralField
+  >
+}
 
 type SchemaMarkupFieldShape = ISchema<
   string,
