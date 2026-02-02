@@ -2,6 +2,13 @@
 
 
 
+## [2.1.1](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.1.0...v2.1.1) (2026-02-02)
+
+
+### Bug Fixes
+
+* **schema-field:** 修复为兼容ssr导致的数据交互异常 ([f106a2c](https://github.com/hezhengxu2018/silver-formily-vue/commit/f106a2c382755906413658e94f490f79b9c5d292))
+
 # [2.1.0](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.0.4...v2.1.0) (2026-01-30)
 
 
