@@ -8,7 +8,7 @@ import type {
 import type { MarkupSchemaProps } from '../utils/schemaFieldProps'
 import { Schema } from '@formily/json-schema'
 import { lazyMerge } from '@formily/shared'
-import { computed, defineComponent, Fragment, h, inject, provide, shallowRef, watch } from 'vue'
+import { computed, defineComponent, Fragment, h, inject, onMounted, provide, shallowRef, watch } from 'vue'
 import { SchemaExpressionScopeSymbol, SchemaMarkupSymbol, SchemaOptionsSymbol } from '../shared'
 import { resolveSchemaProps } from '../utils/resolveSchemaProps'
 import { markupSchemaProps, schemaFieldProps } from '../utils/schemaFieldProps'
@@ -98,19 +98,22 @@ export function createSchemaField<Components extends SchemaVueComponents = Schem
 
       const schemaRef = shallowRef()
 
-      watch(
-        parentRef,
-        () => {
-          if (parentRef.value.type === 'object' || parentRef.value.type === 'void') {
-            schemaRef.value = parentRef.value.addProperty(name, resolveSchemaProps(props))
-          }
-          else if (parentRef.value.type === 'array') {
-            const schema = appendArraySchema(resolveSchemaProps(props))
-            schemaRef.value = Array.isArray(schema) ? schema[0] : schema
-          }
-        },
-        { immediate: true, flush: 'sync' },
-      )
+      const updateSchema = () => {
+        if (parentRef.value.type === 'object' || parentRef.value.type === 'void') {
+          schemaRef.value = parentRef.value.addProperty(name, resolveSchemaProps(props))
+        }
+        else if (parentRef.value.type === 'array') {
+          const schema = appendArraySchema(resolveSchemaProps(props))
+          schemaRef.value = Array.isArray(schema) ? schema[0] : schema
+        }
+      }
+
+      // Use sync flush before mount to avoid SSR/DOM mismatch, then revert after mount.
+      let stop = watch(parentRef, updateSchema, { immediate: true, flush: 'sync' })
+      onMounted(() => {
+        stop()
+        stop = watch(parentRef, updateSchema, { immediate: true })
+      })
       provide(SchemaMarkupSymbol, schemaRef)
 
       return () => h(Fragment, null, slots.default?.() ?? [])
