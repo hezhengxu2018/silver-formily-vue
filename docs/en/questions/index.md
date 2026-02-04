@@ -52,3 +52,30 @@ questions/functional-scoped-slot
 :::
 
 Check the Vue 3 documentation on functional components for more background.
+
+## How do I pass slots to a decorator?
+
+Decorators wrap your real input with components such as `ElFormItem`. They can now receive slots via two entry points:
+
+- In component mode (`Field`, `ArrayField`, `VoidField`, etc.) bind `decorator-content` (kebab or camel case). Its shape mirrors `x-content`: pass a string, a component, or a map of slot names to components.
+- In schema mode declare `x-decorator-content`, reusing the same structure.
+
+:::demo
+questions/decorator-slot
+:::
+
+```ts
+export const schema = {
+  type: 'object',
+  properties: {
+    email: {
+      'type': 'string',
+      'x-decorator': 'FormItem',
+      'x-component': 'Input',
+      'x-decorator-content': {
+        extra: 'Corporate domains are supported',
+      },
+    },
+  },
+}
+```

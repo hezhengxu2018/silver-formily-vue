@@ -10,6 +10,7 @@
 - **原生 DOM 与事件语义**：统一使用 `modelValue` / `onUpdate:modelValue`，Element Plus 等组件可直接对接。
 - **完善的 TypeScript 类型**：在运行时附近维护显式泛型与公共接口，确保生成的 `.d.ts` 与实现同步。
 - **Formily 生态对齐**：与 `@formily/core`、`@formily/json-schema` 等官方包保持兼容，迁移成本低。
+- **Decorator 插槽支持**：通过 `:decorator-content` 与 `x-decorator-content` 将 `FormItem` 等装饰器的 `default`、`label`、`extra` 插槽与 schema 数据解耦，详见[常见问题](./docs/questions/index.md#如何向装饰器传递插槽)。
 - **配套文档与示例**：内置 VitePress 文档，包含 API、迁移提示以及 Element Plus 示例，执行 `pnpm docs:dev` 即可查看。
 
 ## 🔄 与 `@formily/vue` 的差异

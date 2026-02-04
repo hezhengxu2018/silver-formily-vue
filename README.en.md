@@ -10,6 +10,7 @@
 - **Native DOM & events** – relies on `modelValue` / `onUpdate:modelValue`, so Element Plus and most Vue 3 UI kits work without extra adapters.
 - **Richer TypeScript hints** – explicit generics and shared interfaces sit beside the runtime to keep emitted `.d.ts` files in sync.
 - **Formily ecosystem alignment** – works with `@formily/core`, `@formily/json-schema`, and other official packages, keeping migration costs low.
+- **Decorator slots** – wire `FormItem` and other wrappers to the form schema via `:decorator-content` / `x-decorator-content`, covering `default`, `label`, `extra`, or any named slot. See the [FAQ entry](./docs/en/questions/index.md#how-do-i-pass-slots-to-a-decorator).
 - **Docs & demos included** – VitePress docs describe APIs, migration notes, and Element Plus demos; run `pnpm docs:dev` to browse locally.
 
 ## 🔄 Differences vs `@formily/vue`

@@ -19,3 +19,5 @@ api/components/object-field
 ## API
 
 与Field组件的[API](/api/components/field.html#api)完全一致
+
+<!--@include: ./field.md{16,}-->

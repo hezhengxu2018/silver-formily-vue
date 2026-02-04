@@ -52,3 +52,30 @@ questions/functional-scoped-slot
 :::
 
 更多信息请参考Vue3官方文档中的函数式组件。
+
+## 如何向装饰器传递插槽？
+
+`decorator` 对应的是像 `ElFormItem`、`ArrayCards.Item` 这样的布局包装器，现在可以使用两种方式透传它们的插槽：
+
+- 在组件模式下（`Field`、`ArrayField`、`VoidField` 等），通过驼峰/短横线写法绑定 `decorator-content`，其值可以是字符串、组件或具名插槽映射。
+- 在 Schema 模式下使用 `x-decorator-content`，语法与 `x-content` 保持一致。
+
+:::demo
+questions/decorator-slot
+:::
+
+```ts
+export const schema = {
+  type: object,
+  properties: {
+    email: {
+      'type': string,
+      'x-decorator': FormItem,
+      'x-component': Input,
+      'x-decorator-content': {
+        extra: 支持企业邮箱,
+      },
+    },
+  },
+}
+```

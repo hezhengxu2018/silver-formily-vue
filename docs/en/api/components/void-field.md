@@ -33,6 +33,7 @@ Ported from the [official definition](https://core.formilyjs.org/zh-CN/api/model
 | readOnly | Enables read-only mode | `boolean` | `false` |
 | readPretty | Use a ReadPretty presenter | `boolean` | `false` |
 | decorator | Decorator component tuple `[Component, props]`, or `false` | `[Component, Props?]` \| `false` | `false` |
+| decoratorContent | Slot payload forwarded to the decorator | `any` | — |
 | component | Layout renderer tuple `[Component, props]`, or `false` | `[Component, Props?]` \| `false` | `false` |
 | reactions | Side-effect handlers (single function or array) | [FieldReaction](#fieldreaction) \| [FieldReaction](#fieldreaction)[] | — |
 

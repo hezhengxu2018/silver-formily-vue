@@ -39,9 +39,10 @@ api/components/field
 | validateDisplay | Only validate when the field is in specific display modes | ^[enum]`visible \| hidden \| none` | — |
 | validator | Custom validator that shares the Formily `validator` signature (loosely typed as `any` here) | [FieldValidator](/types/validator.html#fieldvalidator) | — |
 | decorator | Decorator component tuple `[Component, props]`, or `false` to disable | `[Component, Props?]` \| `false` | `false` |
+| decoratorContent | Slot payload forwarded to the decorator (same shape as `x-content`) | `any` | — |
 | component | Input component tuple `[Component, props]`, or `false` to disable | `[Component, Props?]` \| `false` | `false` |
 | reactions | Reactive effects, either a function or an array of functions | [FieldReaction](/types/field.html#fieldreaction) \| [FieldReaction](/types/field.html#fieldreaction)[] | — |
-| content | Slot content passed to the decorator (usually the `default` slot) | `any` | — |
+| content | Slot content passed to the input component (usually the `default` slot) | `any` | — |
 | data | Free-form payload available to effects and renderers | `any` | — |
 
 ### Field Slots
