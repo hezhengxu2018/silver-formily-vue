@@ -27,7 +27,8 @@
     "commit": "czg",
     "lint-staged": "lint-staged",
     "release": "release-it",
-    "prepare": "husky"
+    "prepare": "husky",
+    "prepublishOnly": "pnpm run build"
   },
   "peerDependencies": {
     "@formily/core": "^2",
