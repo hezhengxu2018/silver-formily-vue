@@ -16,6 +16,6 @@ api/components/form-consumer
 
 ### Slots
 
-| Slot | Description | Type |
-| --- | --- | --- |
+| Slot    | Description                            | Type                      |
+| ------- | -------------------------------------- | ------------------------- |
 | default | Scoped slot receiving the current form | ^[object]`{ form: Form }` |

@@ -71,7 +71,7 @@ api/components/schema-field-with-schema
 
 `SchemaField` extends the `Field` props, so you inherit everything from [Field’s API](/en/api/components/field#field-props) plus the following additions:
 
-| Prop | Description | Type | Default |
-| ---- | ----------- | ---- | ------- |
-| schema | Schema node to render | [ISchema](/en/api/shared/schema#ischema) | — |
-| scope | Extra variables injected into schema expressions | ^[object]`Record<string, unknown>` | — |
+| Prop   | Description                                      | Type                                     | Default |
+| ------ | ------------------------------------------------ | ---------------------------------------- | ------- |
+| schema | Schema node to render                            | [ISchema](/en/api/shared/schema#ischema) | —       |
+| scope  | Extra variables injected into schema expressions | ^[object]`Record<string, unknown>`       | —       |

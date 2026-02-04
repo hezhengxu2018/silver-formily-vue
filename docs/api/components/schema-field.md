@@ -77,7 +77,7 @@ SchemaField 的类型继承自 Field，因此大部分属性可以参考[Field�
 
 SchemaField 额外支持以下属性：
 
-| 属性   | 说明                     | 类型                                     | 默认值 |
-| ------ | ------------------------ | ---------------------------------------- | ------ |
+| 属性   | 说明                     | 类型                                  | 默认值 |
+| ------ | ------------------------ | ------------------------------------- | ------ |
 | schema | 字段schema               | [ISchema](/api/shared/schema#ischema) | -      |
-| scope  | 向 Schema 表达式注入变量 | ^[object]`Record<string, unknown>`       | -      |
+| scope  | 向 Schema 表达式注入变量 | ^[object]`Record<string, unknown>`    | -      |

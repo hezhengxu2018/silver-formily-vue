@@ -16,6 +16,6 @@ api/components/form-provider
 
 ## API
 
-| Prop | Description | Type | Default |
-| ---- | ----------- | ---- | ------- |
-| form | Form instance returned by `createForm` | [Form](https://core.formilyjs.org/api/models/form) | — |
+| Prop | Description                            | Type                                               | Default |
+| ---- | -------------------------------------- | -------------------------------------------------- | ------- |
+| form | Form instance returned by `createForm` | [Form](https://core.formilyjs.org/api/models/form) | —       |

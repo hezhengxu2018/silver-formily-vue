@@ -27,15 +27,15 @@ api/components/recursion-field-with-component
 
 ## API
 
-| Prop | Description | Type | Default |
-| ---- | ----------- | ---- | ------- |
-| schema | Schema node to render | [ISchema](/en/api/shared/schema) | — |
-| name | Field name to mount. Often derived from `basePath`. | `string` | `schema.name` |
-| basePath | Base path for resolving `name`. | [FormPathPattern](#formpathpattern) | Current field path |
-| onlyRenderProperties | Render only `properties` children, skip the current node. | `boolean` | `false` |
-| onlyRenderSelf | Render the current node only, do not recurse into children. | `boolean` | `false` |
-| mapProperties | Mapper run before rendering each property. | ^[Function]`(schema: Schema, name: SchemaKey) => Schema` | — |
-| filterProperties | Filter function; return `false` to skip a node. | ^[Function]`(schema: Schema, name: SchemaKey) => boolean` | — |
+| Prop                 | Description                                                 | Type                                                      | Default            |
+| -------------------- | ----------------------------------------------------------- | --------------------------------------------------------- | ------------------ |
+| schema               | Schema node to render                                       | [ISchema](/en/api/shared/schema)                          | —                  |
+| name                 | Field name to mount. Often derived from `basePath`.         | `string`                                                  | `schema.name`      |
+| basePath             | Base path for resolving `name`.                             | [FormPathPattern](#formpathpattern)                       | Current field path |
+| onlyRenderProperties | Render only `properties` children, skip the current node.   | `boolean`                                                 | `false`            |
+| onlyRenderSelf       | Render the current node only, do not recurse into children. | `boolean`                                                 | `false`            |
+| mapProperties        | Mapper run before rendering each property.                  | ^[Function]`(schema: Schema, name: SchemaKey) => Schema`  | —                  |
+| filterProperties     | Filter function; return `false` to skip a node.             | ^[Function]`(schema: Schema, name: SchemaKey) => boolean` | —                  |
 
 #### FormPathPattern
 

@@ -29,7 +29,7 @@ api/components/recursion-field-with-component
 
 | 属性                 | 说明                                             | 类型                                                      | 默认值        |
 | -------------------- | ------------------------------------------------ | --------------------------------------------------------- | ------------- |
-| schema               | 要渲染的 Schema 对象                             | [ISchema](/api/shared/schema)                          | —             |
+| schema               | 要渲染的 Schema 对象                             | [ISchema](/api/shared/schema)                             | —             |
 | name                 | 渲染时挂载的字段名称，常配合 `basePath` 推导路径 | `string`                                                  | `schema.name` |
 | basePath             | 计算 `name` 的基路径                             | [FormPathPattern](#FormPathPattern)                       | 当前字段路径  |
 | onlyRenderProperties | 仅渲染子节点 `properties`，不渲染当前节点        | `boolean`                                                 | `false`       |
