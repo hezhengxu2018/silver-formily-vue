@@ -2,6 +2,18 @@
 
 
 
+## [2.2.1](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.1.1...v2.2.1) (2026-02-04)
+
+
+### Features
+
+* **field:** 添加decorator对插槽的支持 ([6149e6e](https://github.com/hezhengxu2018/silver-formily-vue/commit/6149e6eaa1102b875b384e1099a80a6b4c52962c))
+
+
+### Reverts
+
+* "fix(schema-field): 修复为兼容ssr导致的数据交互异常" ([5517712](https://github.com/hezhengxu2018/silver-formily-vue/commit/5517712f0c3dbea008dc723b8305c7804878bd70))
+
 ## [2.1.1](https://github.com/hezhengxu2018/silver-formily-vue/compare/v2.1.0...v2.1.1) (2026-02-02)
 
 
