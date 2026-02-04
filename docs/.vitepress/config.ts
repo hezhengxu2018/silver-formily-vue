@@ -9,6 +9,8 @@ import { createDemoContainer } from 'vitepress-better-demo-plugin'
 import { groupIconMdPlugin, groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { mdExternalLinkIcon, mdTableWrapper, mdTag, mdTooltip } from 'vitepress-theme-element-plus/node'
 import pkg from '../../package.json' with { type: 'json' }
+import { enLocale } from './i18n/en'
+import { zhLocale } from './i18n/zh'
 
 const SITE_URL = 'https://vue.silver-formily.org'
 
@@ -21,6 +23,17 @@ const sharedThemeConfig: EPThemeConfig = {
   outline: [2, 4],
   footer: {
     message: 'Released under the MIT License.',
+    blogroll: [
+      { title: 'Formily', children: [
+        { text: 'Core', link: 'https://core.formilyjs.org/' },
+        { text: 'Reactive', link: 'https://reactive.formilyjs.org/' },
+        { text: 'Vue', link: 'https://vue.formilyjs.org/' },
+      ] },
+      { title: 'Silver Formily', children: [
+        { text: 'Element Plus', link: 'https://element-plus.silver-formily.org' },
+        { text: 'Reactive Vue', link: 'https://reactive-vue.silver-formily.org' },
+      ] },
+    ],
   },
   logo: '/formily-logo.svg',
   socialLinks: [
@@ -28,66 +41,7 @@ const sharedThemeConfig: EPThemeConfig = {
   ],
 }
 
-const zhSidebar: EPThemeConfig['sidebar'] = {
-  '/guide/': [
-    {
-      text: '指南',
-      items: [
-        { text: '介绍', link: '/guide/' },
-      ],
-    },
-  ],
-  '/api/': [
-    {
-      text: 'Components',
-      items: [
-        { text: 'Field', link: '/api/components/field' },
-        { text: 'ArrayField', link: '/api/components/array-field' },
-        { text: 'ObjectField', link: '/api/components/object-field' },
-        { text: 'VoidField', link: '/api/components/void-field' },
-        { text: 'SchemaField', link: '/api/components/schema-field' },
-        { text: 'RecursionField', link: '/api/components/recursion-field' },
-        { text: 'FormProvider', link: '/api/components/form-provider' },
-        { text: 'FormConsumer', link: '/api/components/form-consumer' },
-        { text: 'ExpressionScope', link: '/api/components/expression-scope' },
-      ],
-    },
-    {
-      text: 'Hooks',
-      items: [
-        { text: 'useField', link: '/api/hooks/use-field' },
-        { text: 'useFieldSchema', link: '/api/hooks/use-field-schema' },
-        { text: 'useForm', link: '/api/hooks/use-form' },
-        { text: 'useFormEffects', link: '/api/hooks/use-form-effects' },
-        { text: 'useParentForm', link: '/api/hooks/use-parent-form' },
-      ],
-    },
-    {
-      text: 'Shared',
-      items: [
-        { text: 'connect', link: '/api/shared/connect' },
-        { text: 'injections', link: '/api/shared/injections' },
-        { text: 'mapProps', link: '/api/shared/map-props' },
-        { text: 'mapReadPretty', link: '/api/shared/map-read-pretty' },
-        { text: 'observer', link: '/api/shared/observer' },
-        { text: 'schema', link: '/api/shared/schema' },
-      ],
-    },
-  ],
-  '/types/': [
-    {
-      text: '类型声明',
-      items: [
-        { text: 'Field', link: '/types/field' },
-        { text: 'Path', link: '/types/path' },
-        { text: 'FieldValidator', link: '/types/validator#fieldvalidator' },
-      ],
-    },
-  ],
-}
-
 export default defineConfig<EPThemeConfig>({
-  srcDir: path.resolve(import.meta.dirname, '../zh'),
   title: 'Silver Formily Vue',
   description: 'Vue 3 wrapper for Formily',
   head: [
@@ -104,71 +58,8 @@ export default defineConfig<EPThemeConfig>({
     hostname: SITE_URL,
   },
   locales: {
-    root: {
-      label: '简体中文',
-      lang: 'zh-CN',
-      title: 'Silver Formily Vue',
-      description: 'Formily 的 Vue3 封装',
-      themeConfig: {
-        nav: [
-          {
-            text: '指南',
-            link: '/guide/',
-            activeMatch: '^/guide/',
-          },
-          {
-            text: 'API',
-            link: '/api/components/field',
-            activeMatch: '^/api/',
-          },
-          {
-            text: '类型声明',
-            link: '/types/',
-            activeMatch: '^/types/',
-          },
-          {
-            text: 'Q&A',
-            link: '/questions/',
-            activeMatch: '^/questions/',
-          },
-        ],
-        sidebar: zhSidebar,
-        footer: {
-          blogroll: [
-            { title: 'Formily 官方库', children: [
-              { text: 'Formily Core', link: 'https://core.formilyjs.org/' },
-              { text: 'Formily Reactive', link: 'https://reactive.formilyjs.org/' },
-              { text: 'Formily Vue', link: 'https://vue.formilyjs.org/' },
-            ] },
-            { title: '封装组件库', children: [
-              { text: 'Silver Formily Element Plus', link: 'https://element-plus.silver-formily.org' },
-            ] },
-          ],
-        },
-      },
-    },
-    en: {
-      label: 'English',
-      lang: 'en-US',
-      title: 'Silver Formily Vue',
-      description: 'Vue 3 wrapper for Formily',
-      themeConfig: {
-        nav: [
-          {
-            text: 'Guide',
-            link: '/en/guide/',
-          },
-          {
-            text: 'API',
-            link: '/en/api/components/field',
-          },
-          {
-            text: 'Q&A',
-            link: '/en/questions/',
-          },
-        ],
-      },
-    },
+    root: zhLocale,
+    en: enLocale,
   },
   themeConfig: sharedThemeConfig,
   markdown: {
@@ -179,9 +70,10 @@ export default defineConfig<EPThemeConfig>({
       md.use(mdTooltip)
       md.use(mdTableWrapper)
       md.use(mdContainer, 'demo', createDemoContainer(md, {
-        demoDir: path.resolve(import.meta.dirname, '../zh/demos'),
+        demoDir: path.resolve(import.meta.dirname, '../demos'),
         autoImportWrapper: false,
         codeFold: false,
+        ssg: true,
       }))
     },
     codeTransformers: [transformerTwoslash()],
