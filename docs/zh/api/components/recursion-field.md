@@ -7,7 +7,7 @@ outline: [2,3]
 
 ## 描述
 
-递归渲染组件，主要基于[JSON-Schema](/zh/api/shared/schema)做递归渲染，它是[SchemaField](/zh/api/components/schema-field)组件内部的核心渲染组件，当然，它是可以独立于 SchemaField 单独使用的，我们使用的时候主要是在自定义组件中使用，用于实现具有递归渲染能力的自定义组件
+递归渲染组件，主要基于[JSON-Schema](/api/shared/schema)做递归渲染，它是[SchemaField](/api/components/schema-field)组件内部的核心渲染组件，当然，它是可以独立于 SchemaField 单独使用的，我们使用的时候主要是在自定义组件中使用，用于实现具有递归渲染能力的自定义组件
 
 ## 简易递归
 
@@ -19,7 +19,7 @@ api/components/recursion-field
 
 ## 自增列表递归
 
-使用[useField](/zh/api/hooks/use-field)和[useFieldSchema](/zh/api/hooks/use-field-schema)来获取当前字段上下文中的字段实例和字段 schema
+使用[useField](/api/hooks/use-field)和[useFieldSchema](/api/hooks/use-field-schema)来获取当前字段上下文中的字段实例和字段 schema
 
 ::: demo
 api/components/recursion-field-with-component
@@ -29,7 +29,7 @@ api/components/recursion-field-with-component
 
 | 属性                 | 说明                                             | 类型                                                      | 默认值        |
 | -------------------- | ------------------------------------------------ | --------------------------------------------------------- | ------------- |
-| schema               | 要渲染的 Schema 对象                             | [ISchema](/zh/api/shared/schema)                          | —             |
+| schema               | 要渲染的 Schema 对象                             | [ISchema](/api/shared/schema)                          | —             |
 | name                 | 渲染时挂载的字段名称，常配合 `basePath` 推导路径 | `string`                                                  | `schema.name` |
 | basePath             | 计算 `name` 的基路径                             | [FormPathPattern](#FormPathPattern)                       | 当前字段路径  |
 | onlyRenderProperties | 仅渲染子节点 `properties`，不渲染当前节点        | `boolean`                                                 | `false`       |

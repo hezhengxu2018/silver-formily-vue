@@ -12,7 +12,7 @@ interface useFieldSchema {
 }
 ```
 
-Schema 参考[Schema](/zh/api/shared/schema)
+Schema 参考[Schema](/api/shared/schema)
 
 ## 用例
 

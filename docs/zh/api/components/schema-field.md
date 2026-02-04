@@ -7,7 +7,7 @@ outline: [2,3]
 
 ## 描述
 
-SchemaField 组件是专门用于解析[JSON-Schema](/zh/api/shared/schema)动态渲染表单的组件。
+SchemaField 组件是专门用于解析[JSON-Schema](/api/shared/schema)动态渲染表单的组件。
 
 SchemaField 有两种使用方式，一种是MarkupSchema，一种是JSONSchema。MarkupSchema的渲染将不同类型的 Field 做了分类，在可读性上更好；JSONSchema直接渲染JSON-Schema，更贴近底层实现。
 
@@ -65,7 +65,7 @@ api/components/schema-field
 
 ## JSON Schema
 
-SchemaField 支持直接传入 [JSON-Schema](/zh/api/shared/schema) 对象渲染表单。
+SchemaField 支持直接传入 [JSON-Schema](/api/shared/schema) 对象渲染表单。
 
 ::: demo
 api/components/schema-field-with-schema
@@ -73,11 +73,11 @@ api/components/schema-field-with-schema
 
 ## API
 
-SchemaField 的类型继承自 Field，因此大部分属性可以参考[Field组件的API](/zh/api/components/field.html#api)
+SchemaField 的类型继承自 Field，因此大部分属性可以参考[Field组件的API](/api/components/field.html#api)
 
 SchemaField 额外支持以下属性：
 
 | 属性   | 说明                     | 类型                                     | 默认值 |
 | ------ | ------------------------ | ---------------------------------------- | ------ |
-| schema | 字段schema               | [ISchema](/zh/api/shared/schema#ischema) | -      |
+| schema | 字段schema               | [ISchema](/api/shared/schema#ischema) | -      |
 | scope  | 向 Schema 表达式注入变量 | ^[object]`Record<string, unknown>`       | -      |
