@@ -4,8 +4,6 @@
 
 作为@formily/core 的 [createField](https://core.formilyjs.org/api/models/form#createfield) Vue 实现，它是专门用于将 ViewModel 与输入控件做绑定的桥接组件，Field 组件属性参考[IFieldFactoryProps](https://core.formilyjs.org/api/models/form#ifieldfactoryprops)
 
-name 属性必填。
-
 ## 用例
 
 ::: demo
@@ -18,7 +16,7 @@ api/components/field
 
 | 属性                     | 说明                                                                  | 类型                                                                                                   | 默认值         |
 | ------------------------ | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ | -------------- |
-| name                     | 字段在 Form 中的路径，必须唯一                                        | [FormPathPattern](/types/path.html#formpathpattern)                                                    | —              |
+| name ^(required)         | 字段在 Form 中的路径，必须唯一                                        | [FormPathPattern](/types/path.html#formpathpattern)                                                    | —              |
 | basePath                 | 推导 `name` 的基准路径，常用于局部表单或数组项                        | [FormPathPattern](/types/path.html#formpathpattern)                                                    | 当前表单根路径 |
 | title                    | 字段展示标题，通常映射到装饰器组件的 `label`                          | `string` \| `VNode`                                                                                    | —              |
 | description              | 字段辅助描述信息                                                      | `string` \| `VNode`                                                                                    | —              |
