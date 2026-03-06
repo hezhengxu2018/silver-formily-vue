@@ -2,6 +2,10 @@
 
 [文档网站](https://vue.silver-formily.org/) · [本地文档首页](./docs/zh/index.md) · [English README](./README.en.md)
 
+> [!IMPORTANT]
+> 本仓库已归档（archived），不再继续维护。
+> 当前仓库中的代码已迁移至新仓库：<https://github.com/hezhengxu2018/silver-formily>。
+
 @silver-formily/vue 是一个专注于 Vue 3 生态的 [Formily](https://formilyjs.org/) 运行时封装。它保留了 `@formily/vue` 的编排能力，同时去除了 Vue 2 兼容层、冗余 DOM 包裹以及不一致的事件契约。源码位于 `src/`，文档位于 `docs/`，构建产物存放在 `esm/`。
 
 ## ✨ 特性
